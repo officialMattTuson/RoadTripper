@@ -1,0 +1,24 @@
+.fleet {
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__title {
+        text-align: center;
+        font-size: 3rem;
+        font-weight: 900;
+        margin-inline-end: 47%;
+        margin-block-start: 2rem;
+    }
+}
+
+#back-button {
+    margin: 2rem 0 0 2rem;
+    background-color: black;
+    color: white;
+    &:hover {
+        background-color: orange;
+    }
+}

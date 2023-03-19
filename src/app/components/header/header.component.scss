@@ -1,0 +1,11 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#header-title {
+    margin: 4rem 0 4rem 2rem;
+    font-weight: 900;
+    font-size: 4rem;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}

@@ -1,0 +1,28 @@
+.hero-container {
+    margin: 2rem;
+    width: 25rem;
+    text-align: center;
+}
+
+.hero-text {
+    margin-block-end: 8rem;
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 4rem;
+}
+
+.hero-btn {
+    background-color: black;
+    color: white;
+    font-size: 2rem;
+    padding: 1rem 1rem 1rem 2rem;
+    &:hover {
+        background-color: orange;
+    }
+}
+
+.hero-icon {
+    width: 3rem;
+    height: 3rem;
+    font-size: 3rem;
+}
