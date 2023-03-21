@@ -1,1 +1,155 @@
-<p>locations works!</p>
+<header class="header-container">
+    <button id="back-button" mat-raised-button routerLink="">
+        <mat-icon>chevron_left</mat-icon>
+        Home
+    </button>
+    <h1 class="page-title">Our Locations</h1>
+    <button id="fleet-button" mat-raised-button routerLink="/car-hire">
+        View Fleet
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+</header>
+
+<div class="location_card-wrap">
+
+  <mat-card class="location">
+    <img mat-card-image class="image" src="/assets/images/queenstown.jpg" alt="Queenstown"/>
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>Queenstown</mat-card-title>
+      <mat-card-subtitle>South Island</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+        Equip yourself with a ride to enjoy all the Adventure Capital will offeryou
+    </mat-card-content>
+    <mat-card-actions class="card-actions">
+      <button mat-raised-button class="view-button">
+        <mat-icon class="view-icon">location_on</mat-icon>
+        View Availability
+      </button>
+      <button 
+        disabled
+        matTooltip="Feature Coming Soon" 
+        [matTooltipDisabled]="false"
+        mat-raised-button class="lodge-button">
+        <mat-icon class="lodge-icon">bed</mat-icon>
+        Lodging
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="location">
+    <img mat-card-image class="image" src="/assets/images/sydney.webp" alt="Sydney"/>
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>Sydney</mat-card-title>
+      <mat-card-subtitle>Australia</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+        Sandy Beaches or sparkling architecture, let us share in the magical
+        experience this city provides
+    </mat-card-content>
+    <mat-card-actions class="card-actions">
+      <button mat-raised-button class="view-button">
+        <mat-icon class="view-icon">location_on</mat-icon>
+        View Availability
+      </button>
+      <button
+        disabled 
+        mat-raised-button 
+        class="lodge-button">
+        <mat-icon class="lodge-icon">bed</mat-icon>
+        Lodging
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="location">
+    <img mat-card-image class="image" src="/assets/images/melbourne.webp" alt="Melbourne" />
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>Melbourne</mat-card-title>
+      <mat-card-subtitle>Australia</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="card-content"
+      >The gateway to the south is on your doorstep in this magical artsy vibin city</mat-card-content
+    >
+    <mat-card-actions class="card-actions">
+      <button
+        mat-raised-button
+        class="view-button">
+        <mat-icon class="view-icon">location_on</mat-icon>
+        View Availability
+      </button>
+      <button 
+        disabled 
+        mat-raised-button 
+        class="lodge-button">
+        <mat-icon class="lodge-icon">bed</mat-icon>
+        Lodging
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="location-disabled">
+    <section class="image-container">
+        <img mat-card-image class="image" src="/assets/images/auckland.jpg" alt="Auckland" />
+        <h2 id="coming-soon">Coming Soon</h2>
+    </section>
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>Auckland</mat-card-title>
+      <mat-card-subtitle>North Island</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="card-content"
+      >Explore New Zealand's largest city with New Zealand's premier Road Trip buddy</mat-card-content
+    >
+    <mat-card-actions class="card-actions">
+      <button 
+        disabled
+        mat-raised-button 
+        class="view-button">
+        <mat-icon class="view-icon">location_on</mat-icon>
+        View Availability
+      </button>
+      <button
+        disabled 
+        mat-raised-button
+        class="lodge-button">
+        <mat-icon class="lodge-icon">bed</mat-icon>
+        Lodging
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card class="location-disabled">
+    <section class="image-container">
+        <img mat-card-image class="image" src="/assets/images/dubai.jpg" alt="Dubai" />
+        <h2 id="coming-soon">Coming Soon</h2>
+    </section>
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>Dubai</mat-card-title>
+      <mat-card-subtitle>UAE</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="card-content"
+      >Don't miss out on the city of the future, with more sights and man-made wonders than you could imagine</mat-card-content
+    >
+    <mat-card-actions class="card-actions">
+      <button 
+        disabled
+        mat-raised-button 
+        class="view-button">
+        <mat-icon class="view-icon">location_on</mat-icon>
+        View Availability
+      </button>
+      <button
+        disabled 
+        mat-raised-button
+        class="lodge-button">
+        <mat-icon class="lodge-icon">bed</mat-icon>
+        Lodging
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

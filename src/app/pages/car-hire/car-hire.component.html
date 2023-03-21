@@ -3,9 +3,9 @@
         <button 
         id="back-button"
         mat-raised-button
-        routerLink="">
+        (click)="onBackNavigation()">
             <mat-icon>chevron_left</mat-icon>
-            Back to Home
+            {{backButtonTitle}}
         </button>
         <h2 class="fleet__title">
             Our Fleet

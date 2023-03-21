@@ -16,6 +16,8 @@ import { HeroComponent } from './components/hero/hero.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -36,11 +38,16 @@ import {MatIconModule} from '@angular/material/icon';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatTooltipModule
   ],
   exports: [
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatTooltipModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,43 @@
+.footer {
+    background-color: #858484;
+    padding: 50px 20px;
+    margin-block-start: 3rem;
+    color: azure;
+  }
+  
+  .footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+  
+  .footer-section {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .footer-section h3 {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 5px;
+  }
+  
+  .footer-section ul li a {
+    color: azure;
+    text-decoration: none;
+  }
+  
+  .footer-bottom {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 14px;
+  }
+  

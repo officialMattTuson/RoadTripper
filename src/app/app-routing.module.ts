@@ -7,7 +7,8 @@ import { LodgePackageComponent } from './pages/lodge-package/lodge-package.compo
 import { ServicesComponent } from './pages/services/services.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  {path: '', pathMatch: 'full', redirectTo: 'home'},
+  { path: 'home', component: HomeComponent },
   { path: 'car-hire', component: CarHireComponent },
   { path: 'locations', component: LocationsComponent },
   { path: 'lodge-package', component: LodgePackageComponent },

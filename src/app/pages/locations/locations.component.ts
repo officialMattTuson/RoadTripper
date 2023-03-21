@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UrlService } from 'src/app/services/url.service';
 
 @Component({
   selector: 'app-locations',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LocationsComponent implements OnInit {
 
-  constructor() { }
+  previousUrlString = ''
+  currentUrl = window.location.href
+
+  constructor(private urlService: UrlService) { }
 
   ngOnInit(): void {
+    this.getPreviousUrl();
+  }
+
+  getPreviousUrl() {
+    this.urlService.previousUrl$.subscribe((previousUrl) => {
+      this.previousUrlString = previousUrl;
+    });
   }
 
 }
