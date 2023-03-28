@@ -12,9 +12,12 @@ import { UrlService } from 'src/app/services/url.service';
 })
 export class LocationsComponent implements OnInit, OnDestroy {
 
+  countriesSettled = new Set();
+  categories!: string[];
+  
   previousUrlString = '';
-  countriesSettled? = new Set()
   currentUrl = window.location.href;
+
   locations$ = this.appService.getLocations().pipe(catchError(error => {
     console.log(error)
     return EMPTY;
@@ -24,7 +27,6 @@ export class LocationsComponent implements OnInit, OnDestroy {
     return EMPTY;
   }));
   locationsWithMappedCategories$!: Observable<Location[]>;
-  categories!: string[];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -57,7 +59,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
           ...location,
           category: categories.find(category => category.id === location.categoryId)?.name
         }))
-      ),
+      )
     );
   }
 
