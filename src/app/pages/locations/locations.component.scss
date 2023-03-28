@@ -1,58 +1,66 @@
+/* Header */
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.page-title {
+  }
+  
+  /* Page Title */
+  .page-title {
     text-align: center;
     font-size: 3rem;
     font-weight: 900;
     margin-block-start: 2rem;
-}
-
-#back-button, #fleet-button {
+  }
+  
+  /* Buttons */
+  #back-button, #fleet-button {
     margin: 2rem;
-    width: 8rem;
+    width: 10rem;
     background-color: black;
     color: white;
     &:hover {
-        background-color: orange;
+      background-color: orange;
     }
-}
-
-.image-container {
+  }
+  
+  /* Image */
+  .image-container {
     position: relative;
-}
-
-.image {
+  }
+  
+  .image {
     height: 14rem;
-}
-
-#coming-soon {
+  }
+  
+  #coming-soon {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: rgb(220, 154, 20);
     font-weight: bold;
     font-size: 2rem;
     padding: 1rem;
     text-align: center;
     color: aliceblue;
-}
-
-.location_card-wrap {
+  }
+  
+  /* Location Card */
+  .location_card-wrap {
     display: flex;
     justify-content: space-around;
     gap: 2rem;
     margin: 8rem 2rem 0 2rem;
     flex-wrap: wrap;
-}
-
-.location, .location-disabled {
+  
+    /* Media Query */
+  }
+  
+  .location, .location-disabled {
     border: 3px solid black;
     border-radius: 0.5rem;
     padding: 1rem;
@@ -60,46 +68,89 @@
     max-width: 20rem;
     flex-shrink: 1;
     flex-grow: 0;
-}
-
-.location-disabled {
+  }
+  
+  .location-disabled {
     opacity: 0.3;
     pointer-events: none;
-}
-.card-actions {
+  }
+  
+  /* Card Actions */
+  .card-actions {
     display: flex;
     justify-content: space-between;
-}
-
-.card-content {
+  }
+  
+  /* Card Content */
+  .card-content {
     position: relative;
     white-space: pre-wrap;
-}
-
-.view-button, .lodge-button {
+  }
+  
+  /* Location Header */
+  .location-header {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Buttons */
+  .view-button, .lodge-button {
     background-color: black;
     color: white;
     font-size: 1rem;
-}
-
-.view-button:hover {
+  }
+  
+  .view-button:hover {
     background-color: orange;
-}
-
-.hero-icon, .lodge-icon {
+  }
+  
+  /* Icons */
+  .city-icon {
+    font-size: 3rem;
+  }
+  
+  .hero-icon, .lodge-icon {
     width: 2rem;
     height: 2rem;
     font-size: 2rem;
-}
+  }
 
-@media (max-width: 1000px) {
+  @media (max-width: 1000px) {
     .location {
-        max-width: 20rem;
+      max-width: 20rem;
     }
-}
 
-@media (max-width: 600px) {
-    .location {
-        max-width: 20rem;
+    #back-button, #fleet-button {
+      width: 7rem;
+
+      &-text {
+        display: none;
+      }
     }
-}
+  }
+
+  @media (max-width: 700px) {
+    .header-container {
+      flex-direction: column;
+    }
+    .location, .location-disabled {
+      max-width: 20rem;
+    }
+
+    .location_card-wrap {
+      justify-content: center;
+    }
+
+    #back-button {
+      width: 3rem;
+
+      &-text {
+        display: none;
+      }
+    }
+    #fleet-button {
+      display: none;
+    }
+  }
+  

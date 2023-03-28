@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
+import { AppService } from 'src/app/app.service';
+import { Location } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -6,15 +9,31 @@ import { UrlService } from 'src/app/services/url.service';
   templateUrl: './locations.component.html',
   styleUrls: ['./locations.component.scss']
 })
-export class LocationsComponent implements OnInit {
+export class LocationsComponent implements OnInit, OnDestroy {
 
-  previousUrlString = ''
-  currentUrl = window.location.href
+  previousUrlString = '';
+  currentUrl = window.location.href;
+  locations$ = this.appService.getLocations().pipe(catchError(error => {
+    console.log(error)
+    return EMPTY;
+  }));
+  categories$ = this.appService.getCategories().pipe(catchError(error => {
+    console.log(error)
+    return EMPTY;
+  }));
+  locationsWithMappedCategories$!: Observable<Location[]>;
+  categories!: string[];
 
-  constructor(private urlService: UrlService) { }
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private urlService: UrlService,
+              private appService: AppService) { }
 
   ngOnInit(): void {
     this.getPreviousUrl();
+    this.locationsWithMappedCategories$ = this.getLocations();
+    this.locationsWithMappedCategories$.subscribe();
+    this.getCategoryNames();
   }
 
   getPreviousUrl() {
@@ -23,4 +42,36 @@ export class LocationsComponent implements OnInit {
     });
   }
 
+  getLocations(): Observable<Location[]> {
+    return combineLatest([this.locations$, this.categories$])
+    .pipe(
+      takeUntil(this.destroy$),
+      map(([locations, categories]) =>
+        locations.map(location => ({
+          ...location,
+          category: categories.find(category => category.id === location.categoryId)?.name
+        }))
+      )
+    );
+  }
+
+  getCategoryNames() {
+    this.categories$.pipe(
+      catchError(error => {
+        console.error(error);
+        return EMPTY;
+      }),
+      map(categories => {
+        const categoryNames = categories.map(category => category.name);
+        return categoryNames;
+      })
+    ).subscribe(
+      categories => this.categories = categories
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }

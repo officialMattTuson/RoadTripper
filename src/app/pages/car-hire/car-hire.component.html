@@ -5,17 +5,52 @@
         mat-raised-button
         (click)="onBackNavigation()">
             <mat-icon>chevron_left</mat-icon>
-            {{backButtonTitle}}
+            <span class="back-button-text">{{backButtonTitle}}</span>
         </button>
         <h2 class="fleet__title">
             Our Fleet
         </h2>
     </div>
-    <div class="fleet__car-selector">
-      <!-- Car selection UI elements would go here -->
-    </div>
-    <div class="fleet__car-card">
-      <h4 class="fleet__car-card-title"></h4>
-      <span class="fleet__car-card-details"></span>
+    <div class="car__wrap" *ngIf="carDetails">
+      <mat-icon 
+        class="direction-icons-left"
+        (click)="decrementCarToggle()"
+        >
+        keyboard_double_arrow_left
+      </mat-icon>
+      <mat-card class="car">
+        <div class="car__top-border">
+          <img class="car__image" src="{{carDetails.image}}" alt="car">
+          <mat-card-header class="car-header">
+            <mat-card-title class="car-header__title">{{carDetails.make}}</mat-card-title>
+            <mat-card-subtitle>{{carDetails.year}} {{carDetails.model}}</mat-card-subtitle>
+          </mat-card-header>
+        </div>
+        <mat-card-content class="card-content">
+          {{carDetails.description}}
+        </mat-card-content>
+        <mat-card-actions class="card-actions">
+          <button 
+            mat-raised-button 
+            class="view-button"
+            routerLink="/locations">
+            <mat-icon class="view-icon">location_on</mat-icon>
+            Locations
+          </button>
+          <button
+            disabled 
+            mat-raised-button 
+            class="lodge-button">
+            <mat-icon class="lodge-icon">bed</mat-icon>
+            Book Now
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-icon 
+        class="direction-icons-right"
+        (click)="incrementCarToggle()"
+        >
+        keyboard_double_arrow_right
+      </mat-icon>
     </div>
   </div>
