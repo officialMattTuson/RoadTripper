@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Location } from 'src/app/interfaces/interfaces';
@@ -12,6 +13,7 @@ import { UrlService } from 'src/app/services/url.service';
 export class LocationsComponent implements OnInit, OnDestroy {
 
   previousUrlString = '';
+  countriesSettled? = new Set()
   currentUrl = window.location.href;
   locations$ = this.appService.getLocations().pipe(catchError(error => {
     console.log(error)
@@ -27,12 +29,16 @@ export class LocationsComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private urlService: UrlService,
-              private appService: AppService) { }
+              private appService: AppService,
+              private titleService: Title) { }
 
   ngOnInit(): void {
     this.getPreviousUrl();
+    this.titleService.setTitle('Locations');
     this.locationsWithMappedCategories$ = this.getLocations();
-    this.locationsWithMappedCategories$.subscribe();
+    this.locationsWithMappedCategories$.subscribe((locations) => {
+    this.countriesSettled = new Set(locations.map(location => location.country));
+  });
     this.getCategoryNames();
   }
 
@@ -51,7 +57,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
           ...location,
           category: categories.find(category => category.id === location.categoryId)?.name
         }))
-      )
+      ),
     );
   }
 

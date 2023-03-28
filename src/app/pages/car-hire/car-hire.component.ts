@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, Subject, takeUntil, throwError } from 'rxjs';
 import { AppService } from 'src/app/app.service';
@@ -24,12 +25,14 @@ export class CarHireComponent implements OnInit, OnDestroy {
 
   constructor(private urlService: UrlService,
               private router: Router,
-              private appService: AppService) { }
+              private appService: AppService,
+              private titleService: Title) { }
 
   ngOnInit(): void {
     this.getPreviousUrl();
     this.setBackButtonTitle();
     this.getAllCars();
+    this.titleService.setTitle('Fleet');
   }
 
   getPreviousUrl() {
