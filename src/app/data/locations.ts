@@ -49,6 +49,76 @@ const locationSetData = [
     },
     {
         id: chance.guid(),
+        name: 'Christchurch',
+        area: 'South Island',
+        country: 'New Zealand',
+        brief: "The largest city in New Zealand's South Island with a rich history and vibrant culture, including beautiful parks and gardens, a thriving food scene, and a bustling arts and music scene.",
+        image: '../assets/images/christchurch.webp',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
+        name: 'Te Anau',
+        area: 'South Island',
+        country: 'New Zealand',
+        brief: 'A picturesque town located on the shores of Lake Te Anau and the gateway to the stunning Fiordland National Park in New Zealand.',
+        image: '../assets/images/teanau.jpg',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
+        name: 'Nelson',
+        area: 'South Island',
+        country: 'New Zealand',
+        brief: "A vibrant coastal city in the northern region of New Zealand's South Island known for its arts and culture scene, as well as its proximity to Abel Tasman National Park.",
+        image: '../assets/images/nelson.jpg',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
+        name: 'Tauranga',
+        area: 'North Island',
+        country: 'New Zealand',
+        brief: "A bustling coastal city in New Zealand's North Island known for its sunny weather, beautiful beaches, and stunning harbor, with plenty of outdoor activities to enjoy.",
+        image: '../assets/images/tauranga.jpg',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
+        name: 'New Plymouth',
+        area: 'North Island',
+        country: 'New Zealand',
+        brief: "A coastal city on the west coast of New Zealand's North Island, known for its beautiful beaches, outdoor recreation opportunities, and cultural attractions",
+        image: '../assets/images/newplymouth.jpg',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
+        name: 'Adelaide',
+        area: 'South Australia',
+        country: 'Australia',
+        brief: 'known for its beautiful parks and gardens, world-class wineries, and vibrant cultural scene, including the Adelaide Festival of Arts.',
+        image: '../assets/images/adelaide.jpg',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
+        name: 'Darwin',
+        area: 'Northern Territory',
+        country: 'Australia',
+        brief: 'A rich indigenous history and culture, unique wildlife, and beautiful natural scenery, including the nearby Kakadu National Park.',
+        image: '../assets/images/darwin.webp',
+        isFinalized: true,
+        categoryId: categoryData[0].id
+    },
+    {
+        id: chance.guid(),
         name: 'Sydney',
         area: 'New South Wales',
         country: 'Australia',
