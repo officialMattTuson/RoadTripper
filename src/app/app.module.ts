@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { HomeComponent } from './home/home.component';
 import { CarHireComponent } from './pages/car-hire/car-hire.component';
 import { LocationsComponent } from './pages/locations/locations.component';
@@ -14,27 +15,33 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeroComponent } from './components/hero/hero.component';
+import { LearningComponent } from './pages/lodge-package/learning/learning.component';
+import { SearhBarComponent } from './searh-bar/searh-bar.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { LearningComponent } from './pages/lodge-package/learning/learning.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    
+    // Pages 
     HomeComponent,
     CarHireComponent,
     LocationsComponent,
     LodgePackageComponent,
     ServicesComponent,
+
+    // Components
     HeaderComponent,
     FooterComponent,
     NavbarComponent,
     HeroComponent,
-    LearningComponent
+    LearningComponent,
+    SearhBarComponent
   ],
   imports: [
     BrowserModule,
