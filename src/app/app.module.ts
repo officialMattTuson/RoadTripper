@@ -16,7 +16,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { LearningComponent } from './pages/lodge-package/learning/learning.component';
-import { SearhBarComponent } from './searh-bar/searh-bar.component';
+import { SearhBarComponent } from './components/searh-bar/searh-bar.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
