@@ -14,8 +14,22 @@
     </button>
 </header>
 
+<div class="country-filter" *ngIf="countriesSettled">
+  <app-search-bar
+    [options]="countriesSettled"
+    (selectedValue)="onFilterChange($event)"
+    >
+  </app-search-bar>
+  <h1 *ngIf="currentSearchFilters.length > 0; else noFiltersSelected">
+    {{ currentSearchFilters.length > 1 ? currentSearchFilters.length + ' countries' : currentSearchFilters }}
+  </h1>
+  <ng-template #noFiltersSelected>
+    <h1>No Countries Selected</h1>
+  </ng-template>
+</div>
+
 <div class="location_card-wrap" *ngIf="locationsWithMappedCategories$ | async as locations">
-  <mat-card *ngFor="let location of locations" 
+  <mat-card *ngFor="let location of locationsSelected" 
     class="location" 
     [ngClass]="{'location-disabled': !location.isFinalized}">
     <img mat-card-image 

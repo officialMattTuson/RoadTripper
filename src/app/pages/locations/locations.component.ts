@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { Location } from 'src/app/interfaces/interfaces';
+import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -12,8 +12,10 @@ import { UrlService } from 'src/app/services/url.service';
 })
 export class LocationsComponent implements OnInit, OnDestroy {
 
-  countriesSettled = new Set();
+  countriesList = new Set();
+  countriesSettled?: SelectButtonOption[];
   categories!: string[];
+  locationsSelected: Location[] = [];
   
   previousUrlString = '';
   currentUrl = window.location.href;
@@ -27,6 +29,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
     return EMPTY;
   }));
   locationsWithMappedCategories$!: Observable<Location[]>;
+  currentSearchFilters: string[] = [];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -38,10 +41,9 @@ export class LocationsComponent implements OnInit, OnDestroy {
     this.getPreviousUrl();
     this.titleService.setTitle('Locations');
     this.locationsWithMappedCategories$ = this.getLocations();
-    this.locationsWithMappedCategories$.subscribe((locations) => {
-    this.countriesSettled = new Set(locations.map(location => location.country));
-  });
+    this.getCountries();
     this.getCategoryNames();
+    this.setSelectedLocations();
   }
 
   getPreviousUrl() {
@@ -63,6 +65,48 @@ export class LocationsComponent implements OnInit, OnDestroy {
     );
   }
 
+  getCountries() {
+    this.locationsWithMappedCategories$.subscribe((locations) => {
+      this.countriesList = new Set(locations.map(location => location.country));
+      const countriesListArray = Array.from(this.countriesList) as string[];
+      this.setCountryFilter(countriesListArray);
+    });
+  }
+
+  setCountryFilter(countries: string[]) {
+    this.countriesSettled = countries.map(country => {
+      if (country === 'New Zealand') {
+        return {label: country, value: country, checked: true} as SelectButtonOption;
+      } 
+      return {label: country, value: country, checked: false} as SelectButtonOption;
+    });
+  }
+
+  setSelectedLocations() {
+    this.locationsWithMappedCategories$.subscribe(locations => {
+      locations.map(location => {
+        if (location.country === 'New Zealand') {
+          this.locationsSelected.push(location);
+        }
+      })
+      this.currentSearchFilters.push('New Zealand')
+      return this.locationsSelected;
+    })
+  }
+
+  sortLocationsByCountry(selectedCountries: string[]) {
+    this.locationsSelected = [];
+    this.locationsWithMappedCategories$.subscribe(locations => {
+      locations.map(location => {   
+        if (selectedCountries.indexOf(location.country) > -1) {
+          this.locationsSelected.push(location);
+        }
+      })
+      this.currentSearchFilters = selectedCountries;
+      return this.locationsSelected;
+    })
+  }
+
   getCategoryNames() {
     this.categories$.pipe(
       catchError(error => {
@@ -76,6 +120,16 @@ export class LocationsComponent implements OnInit, OnDestroy {
     ).subscribe(
       categories => this.categories = categories
     )
+  }
+
+  onFilterChange(selectedFilters: string[]) {
+    this.currentSearchFilters = selectedFilters;
+    if (selectedFilters.length === 0) {
+      this.locationsSelected = [];
+      this.currentSearchFilters = [];
+      return;
+    } 
+    this.sortLocationsByCountry(selectedFilters);
   }
 
   ngOnDestroy(): void {
