@@ -94,6 +94,18 @@ export class LocationsComponent implements OnInit, OnDestroy {
     })
   }
 
+  showLocationsComingSoon() {
+    this.locationsSelected = [];
+    this.locationsWithMappedCategories$.subscribe(locations => {
+      locations.map(location => {
+        if (!location.isFinalized) {
+          this.locationsSelected.push(location);
+        }
+      })
+      return this.locationsSelected;
+    })
+  }
+
   sortLocationsByCountry(selectedCountries: string[]) {
     this.locationsSelected = [];
     this.locationsWithMappedCategories$.subscribe(locations => {
@@ -125,8 +137,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
   onFilterChange(selectedFilters: string[]) {
     this.currentSearchFilters = selectedFilters;
     if (selectedFilters.length === 0) {
-      this.locationsSelected = [];
-      this.currentSearchFilters = [];
+      this.showLocationsComingSoon();
       return;
     } 
     this.sortLocationsByCountry(selectedFilters);
