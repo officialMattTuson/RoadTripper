@@ -140,7 +140,7 @@ const carSetData = [
     id: chance.guid(),
     make: 'Byd',
     model: 'ATT0',
-    year: '2019',
+    year: '2022',
     bodyType: carTypeData[4].id,
     fuelClass: fuelClassData[0].id,
     fuelCategory: fuelCategoryData[0].id,
@@ -150,7 +150,7 @@ const carSetData = [
     doors: '4',
     dailyRate: 170,
     image: '../assets/images/byd.png',
-    description: "State of the Art Technology meets, comfort, packing space and desire for a cleaner environment."
+    description: "The BYD ATT0 3 is a compact electric hatchback with a sleek design and a range of advanced features, ideal for urban driving."
   },
   {
     id: chance.guid(),
@@ -166,7 +166,7 @@ const carSetData = [
     doors: '4',
     dailyRate: 170,
     image: '../assets/images/kia.png',
-    description: "State of the Art Technology meets, comfort, packing space and desire for a cleaner environment."
+    description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
   },
   {
     id: chance.guid(),
