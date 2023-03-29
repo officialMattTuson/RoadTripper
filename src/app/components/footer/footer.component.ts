@@ -10,8 +10,6 @@ import { catchError, EMPTY, map } from 'rxjs';
 })
 export class FooterComponent {
 
-  previousUrlString = '';
-  currentUrl = window.location.href;
   locations$ = this.appService.getLocations().pipe(
     catchError(error => {
     console.log(error)
