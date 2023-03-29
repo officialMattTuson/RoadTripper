@@ -1,4 +1,3 @@
-import { Location } from '../interfaces/interfaces';
 import Chance from 'chance';
 
 const chance = new Chance();
