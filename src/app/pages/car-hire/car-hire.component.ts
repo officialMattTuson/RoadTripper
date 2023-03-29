@@ -61,9 +61,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.getPreviousUrl();
     this.setBackButtonTitle();
     this.carDetails$ = this.getCarDetails();
-    this.carDetails$.subscribe((carDetails) => {
-      console.log(carDetails);
-    });
+    this.carDetails$.subscribe();
     this.titleService.setTitle('Fleet');
   }
 
@@ -105,23 +103,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
           transmission: transmissions.find(transmission => transmission.id === car.transmission)?.name
         }));
       }),
-      tap(cars => console.log(cars))
     );
-  }
-  
-
-  showSelectedCar(cars: Car[], index: number) {
-    // this.carDetails = cars[index]
-  }
-
-  incrementCarToggle(): void {
-    // this.carIndex = (this.carIndex + 1) % this.cars.length;
-    // this.showSelectedCar(this.cars, this.carIndex);
-  }
-
-  decrementCarToggle(): void {
-    // this.carIndex = (this.carIndex - 1 + this.cars.length) % this.cars.length;
-    // this.showSelectedCar(this.cars, this.carIndex);
   }
 
   ngOnDestroy(): void {
