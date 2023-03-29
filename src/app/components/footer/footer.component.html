@@ -1,11 +1,9 @@
 <footer class="footer">
     <div class="footer-top">
-      <div class="footer-section">
+      <div class="footer-section" *ngIf="locations$ | async as locations">
         <h3>Locations</h3>
         <ul>
-          <li><a href="#">Queenstown</a></li>
-          <li><a href="#">Sydney</a></li>
-          <li><a href="#">Melbourne</a></li>
+          <li *ngFor="let location of locations; let i = index"> {{ location[i] }}</li>
         </ul>
       </div>
       <div class="footer-section">
