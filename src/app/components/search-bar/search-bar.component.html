@@ -1,0 +1,34 @@
+<button
+  mat-stroked-button
+  class="select__button"
+  [matMenuTriggerFor]="menu"
+>
+  <span>Filter By Countries</span>
+  <mat-icon color="primary">expand_more</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    (click)="$event.stopPropagation()"
+  >
+    <mat-checkbox
+      (change)="onAllChecked($event)"
+      [(ngModel)]="allChecked"
+      >All
+    </mat-checkbox>
+  </button>
+
+  <button
+    *ngFor="let option of options"
+    mat-menu-item
+    (click)="$event.stopPropagation()"
+  >
+    <mat-checkbox
+      (change)="onChange(option)"
+      [(ngModel)]="option.checked"
+    >
+      {{ option.label }}
+    </mat-checkbox>
+  </button>
+</mat-menu>

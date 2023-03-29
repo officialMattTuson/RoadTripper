@@ -16,12 +16,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { LearningComponent } from './pages/lodge-package/learning/learning.component';
-import { SearhBarComponent } from './components/searh-bar/searh-bar.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatMenuModule} from '@angular/material/menu'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -41,7 +44,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     NavbarComponent,
     HeroComponent,
     LearningComponent,
-    SearhBarComponent
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,
@@ -51,13 +54,21 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatCheckboxModule
   ],
   exports: [
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatMenuModule,
+    MatCheckboxModule
 
   ],
   providers: [],
