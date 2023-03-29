@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { catchError, combineLatest, EMPTY, map, merge, mergeMap, Observable, of, Subject, switchMap, takeUntil, tap, throwError } from 'rxjs';
+import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Car } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
@@ -16,7 +16,6 @@ export class CarHireComponent implements OnInit, OnDestroy {
   backButtonTitle = '';
   previousUrlString!: string;
   currentUrl = window.location.href;
-  carIndex = 0;
   
   cars$ = this.appService.getAllCars().pipe(catchError(error => {
     console.log(error)
@@ -62,7 +61,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.setBackButtonTitle();
     this.carDetails$ = this.getCarDetails();
     this.carDetails$.subscribe();
-    this.titleService.setTitle('Fleet');
+    this.titleService.setTitle('Our Fleet');
   }
 
   getPreviousUrl() {
