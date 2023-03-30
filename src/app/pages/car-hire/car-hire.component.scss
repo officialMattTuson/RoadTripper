@@ -24,6 +24,13 @@
   }
 }
 
+.fuel-type-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
 .car {
   position: relative;
   width: 20rem;

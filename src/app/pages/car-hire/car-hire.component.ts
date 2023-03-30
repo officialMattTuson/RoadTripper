@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { Car } from 'src/app/interfaces/interfaces';
+import { Car, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -48,6 +48,11 @@ export class CarHireComponent implements OnInit, OnDestroy {
   }));
 
   carDetails$!: Observable<Car[]>;
+  searchBarTitle = 'Filter By Fuel Type';
+  carListingsByFuelClass = new Set();
+  filteredCarList?: SelectButtonOption[];
+  currentSearchFilters: string[] = [];
+  filteredCarsByFuelType: Car[] =[];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -62,6 +67,8 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.carDetails$ = this.getCarDetails();
     this.carDetails$.subscribe();
     this.titleService.setTitle('Our Fleet');
+    this.getCarsByFuelType();
+    this.setFuelTypes();
   }
 
   getPreviousUrl() {
@@ -103,6 +110,57 @@ export class CarHireComponent implements OnInit, OnDestroy {
         }));
       }),
     );
+  }
+  
+  getCarsByFuelType() {
+    this.carDetails$.subscribe((carDetails) => {
+      this.carListingsByFuelClass = new Set(carDetails.map(car => car.fuelClass));
+      const carFuelTypes = Array.from(this.carListingsByFuelClass) as string[];
+      this.setFuelTypeFilter(carFuelTypes);
+    });
+  }
+
+  setFuelTypeFilter(fuelTypes: string[]) {
+    this.filteredCarList = fuelTypes.map(fuelType => {
+      if (fuelType === 'Electric') {
+        return {label: fuelType, value: fuelType, checked: true} as SelectButtonOption;
+      } 
+      return {label: fuelType, value: fuelType, checked: false} as SelectButtonOption;
+    });
+  }
+
+  setFuelTypes() {
+    this.carDetails$.subscribe(carDetails => {
+      carDetails.map(car => {
+        if (car.fuelClass === 'Electric') {
+          this.filteredCarsByFuelType.push(car);
+        }
+      })
+      this.currentSearchFilters.push('New Zealand')
+      return this.filteredCarsByFuelType;
+    })
+  }
+
+  onFilterChange(selectedFilters: string[]) {
+    this.currentSearchFilters = selectedFilters;
+    this.sortCarsByFuelType(selectedFilters);
+  }
+
+  sortCarsByFuelType(selectedFuelTypes: string[]) {
+    this.filteredCarsByFuelType = [];
+    this.carDetails$.subscribe(carDetails => {
+      carDetails.map(car => {   
+        if (car.fuelClass === undefined) {
+          return;
+        }
+        if (selectedFuelTypes.indexOf(car.fuelClass) > -1) {
+          this.filteredCarsByFuelType.push(car);
+        }
+      })
+      this.currentSearchFilters = selectedFuelTypes;
+      console.log(this.filteredCarsByFuelType)
+      return this.filteredCarsByFuelType;
+    })
   }
 
   ngOnDestroy(): void {

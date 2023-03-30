@@ -10,13 +10,17 @@ import { SelectButtonOption } from 'src/app/interfaces/interfaces';
 export class SearchBarComponent {
 
   @Input() options: SelectButtonOption[] =[];
+  @Input() searchBarTitle: string = '';
   @Output() selectedValue = new EventEmitter<string[]>();
 
   selectedOptions: SelectButtonOption[] = [];
   allChecked = false;
+  currentUrl = window.location.href;
 
   ngOnInit(): void {
-    this.onChange({label: 'New Zealand', value: 'New Zealand', checked: true})
+    this.currentUrl.includes('locations') ? 
+    this.onChange({label: 'New Zealand', value: 'New Zealand', checked: true}) :
+    this.onChange({label: 'Electric', value: 'Electric', checked: true})
   }
 
   onChange(option: SelectButtonOption) {

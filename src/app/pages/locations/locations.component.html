@@ -16,6 +16,7 @@
 
 <div class="country-filter" *ngIf="countriesSettled">
   <app-search-bar
+  [searchBarTitle]="searchBarTitle"
     [options]="countriesSettled"
     (selectedValue)="onFilterChange($event)"
     >

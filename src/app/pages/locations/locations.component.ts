@@ -13,6 +13,7 @@ import { UrlService } from 'src/app/services/url.service';
 export class LocationsComponent implements OnInit, OnDestroy {
 
   countriesList = new Set();
+  searchBarTitle = 'Filter By Countries';
   countriesSettled?: SelectButtonOption[];
   categories!: string[];
   locationsSelected: Location[] = [];
@@ -80,6 +81,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
       } 
       return {label: country, value: country, checked: false} as SelectButtonOption;
     });
+
   }
 
   setSelectedLocations() {
@@ -111,10 +113,11 @@ export class LocationsComponent implements OnInit, OnDestroy {
     this.locationsWithMappedCategories$.subscribe(locations => {
       locations.map(location => {   
         if (selectedCountries.indexOf(location.country) > -1) {
-          this.locationsSelected.push(location);
+          this.locationsSelected.push (location);
         }
       })
       this.currentSearchFilters = selectedCountries;
+      console.log(this.locationsSelected)
       return this.locationsSelected;
     })
   }
