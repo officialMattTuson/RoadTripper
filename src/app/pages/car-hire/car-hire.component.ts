@@ -62,6 +62,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
               private titleService: Title) { }
 
   ngOnInit(): void {
+    this.appService.searchCarByMakeOrModel('tesla')
     this.getPreviousUrl();
     this.setBackButtonTitle();
     this.carDetails$ = this.getCarDetails();
@@ -158,7 +159,6 @@ export class CarHireComponent implements OnInit, OnDestroy {
         }
       })
       this.currentSearchFilters = selectedFuelTypes;
-      console.log(this.filteredCarsByFuelType)
       return this.filteredCarsByFuelType;
     })
   }

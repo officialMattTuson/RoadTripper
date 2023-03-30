@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
-import { getAllCarDetails, getCarTypes, getExperienceTypes, getFuelCategories, getFuelClass, getTransmissions, mockCarDetails } from './data/car';
+import { getAllCarDetails, getCarTypes, getExperienceTypes, getFuelCategories, getFuelClass, getTransmissions, mockCarDetails, searchCarInventory } from './data/car';
 import { getCategories, getLocations, getRandomLocation } from './data/locations';
 import { Car, CarType, Category, ExperienceType, FuelCategory, FuelClass, Location, Transmission } from './interfaces/interfaces';
 
@@ -48,6 +48,9 @@ export class AppService {
     return of(getTransmissions()).pipe(take(1));
   }
 
+  searchCarByMakeOrModel(phrase: string): Observable<Car[]> {
+    return of(searchCarInventory(phrase)).pipe(take(1))
+  }
 
   //  Locations
 
