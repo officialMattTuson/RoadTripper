@@ -18,7 +18,7 @@ IMPROVEMENTS TO MAKE
         a.  Search Bar for locations & cars
         b.  Sorting => filter locations by country
         c.  Sorting => filter cars (undecided filter method)
-        d.  Car Hiring Page => Plan to use empty whitespace for some added user functionality
+        d.  Car Hiring Page => Plan to use empty whitespace for some added user functionality   
         e.  Day Night Mode => Accessibility
     10.  Stretch:
         a.  Car Unavailable Feature - Check Car by Location

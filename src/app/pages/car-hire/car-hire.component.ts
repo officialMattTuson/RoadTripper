@@ -111,7 +111,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
       }),
     );
   }
-  
+
   getCarsByFuelType() {
     this.carDetails$.subscribe((carDetails) => {
       this.carListingsByFuelClass = new Set(carDetails.map(car => car.fuelClass));
@@ -167,6 +167,4 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
-  
 }
