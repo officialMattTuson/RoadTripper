@@ -42,6 +42,10 @@ const fuelClassData: FuelClass[] = [
   {
     id: chance.guid(),
     name: 'Petrol'
+  },
+  {
+    id: chance.guid(),
+    name: 'Diesel'
   }
 ]
 
@@ -168,6 +172,38 @@ const carSetData = [
     image: '../assets/images/kia.png',
     description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
   },
+    {
+    id: chance.guid(),
+    make: 'Kia',
+    model: 'Sorento',
+    year: '2007',
+    bodyType: carTypeData[4].id,
+    fuelClass: fuelClassData[3].id,
+    fuelCategory: fuelCategoryData[3].id,
+    experience: experienceData[1].id,
+    transmission: transmissionType[1].id,
+    seats: '5',
+    doors: '4',
+    dailyRate: 170,
+    image: '../assets/images/kiasorento.png',
+    description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
+  },
+  {
+    id: chance.guid(),
+    make: 'Ford',
+    model: 'Ranger',
+    year: '2010',
+    bodyType: carTypeData[3].id,
+    fuelClass: fuelClassData[3].id,
+    fuelCategory: fuelCategoryData[3].id,
+    experience: experienceData[1].id,
+    transmission: transmissionType[1].id,
+    seats: '5',
+    doors: '4',
+    dailyRate: 140,
+    image: '../assets/images/ford.png',
+    description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
+  },
   {
     id: chance.guid(),
     make: 'Chevrolet',
@@ -230,3 +266,11 @@ export function getExperienceTypes(): ExperienceType[] {
 export function getTransmissions(): Transmission[] {
   return transmissionType;
 }
+
+export function searchCarInventory(phrase: string): Car[] {
+  const filteredCars: Car[] = carSetData.filter(car => {
+    return car.make.toLowerCase().includes(phrase.toLowerCase()) || car.model.toLowerCase().includes(phrase.toLowerCase());
+  });
+  return filteredCars;
+} 
+
