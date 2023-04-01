@@ -1,4 +1,6 @@
-<form [formGroup]="searchForm">
+<form
+  class="form"
+  [formGroup]="searchForm">
   <mat-form-field
     appearance="outline"
     color="primary"
@@ -12,11 +14,20 @@
       [placeholder]="placeholder"
       type="text"
     />
+    <button
+      matSuffix
+      color="warn"
+      mat-icon-button
+      *ngIf="showSearchButton"
+      (click)="reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 
   <button
     mat-raised-button
-    color="warn"
+    id="search-button"
     *ngIf="showSearchButton"
     (click)="onEnter()"
   >

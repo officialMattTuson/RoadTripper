@@ -60,6 +60,11 @@ export class SearchBarComponent {
     })
   }
 
+  reset() {
+    this.searchTermControl.reset();
+    this.showSearchButton = false;
+  }
+
   onAllChecked(event: MatCheckboxChange) {
     this.allChecked = event.checked;
     this.options.forEach((option) => {
