@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {MatCheckboxChange} from '@angular/material/checkbox';
+import { Subject, takeUntil } from 'rxjs';
 import { SelectButtonOption } from 'src/app/interfaces/interfaces';
 
 @Component({
@@ -11,16 +13,32 @@ export class SearchBarComponent {
 
   @Input() options: SelectButtonOption[] =[];
   @Input() searchBarTitle: string = '';
-  @Output() selectedValue = new EventEmitter<string[]>();
+  @Input() placeholder = '';
 
+  @Output() selectedValue = new EventEmitter<string[]>();
+  @Output() searchEvent = new EventEmitter<string>();
+
+  showSearchButton = false;
   selectedOptions: SelectButtonOption[] = [];
   allChecked = false;
   currentUrl = window.location.href;
 
+  searchForm = new FormGroup({
+    searchTerm: new FormControl(),
+  });
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnter() {
+    this.searchEvent.emit(this.searchTermControl.value)
+  }
+
   ngOnInit(): void {
     this.currentUrl.includes('locations') ? 
     this.onChange({label: 'New Zealand', value: 'New Zealand', checked: true}) :
-    this.onChange({label: 'Electric', value: 'Electric', checked: true})
+    this.onChange({label: 'Electric', value: 'Electric', checked: true});
+    this.observeSearchField();
   }
 
   onChange(option: SelectButtonOption) {
@@ -31,6 +49,15 @@ export class SearchBarComponent {
     }
 
     this.emitSelectedValues(this.selectedOptions);
+  }
+
+  observeSearchField() {
+    this.searchTermControl.valueChanges.pipe(takeUntil(this.destroy$))
+    .subscribe(value => {
+      if (value) {
+        this.showSearchButton = true
+      } 
+    })
   }
 
   onAllChecked(event: MatCheckboxChange) {
@@ -47,4 +74,8 @@ export class SearchBarComponent {
     this.selectedValue.emit(values);
   }
 
+  get searchTermControl(): FormControl {
+    return this.searchForm.get('searchTerm') as FormControl;
+  }
+  
 }

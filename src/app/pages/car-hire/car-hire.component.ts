@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
@@ -49,20 +50,22 @@ export class CarHireComponent implements OnInit, OnDestroy {
 
   carDetails$!: Observable<Car[]>;
   searchBarTitle = 'Filter By Fuel Type';
+  placeholder = 'Search Car By Make or Model';
   carListingsByFuelClass = new Set();
   filteredCarList?: SelectButtonOption[];
   currentSearchFilters: string[] = [];
   filteredCarsByFuelType: Car[] =[];
+  searchForm!: FormGroup;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private urlService: UrlService,
               private router: Router,
               private appService: AppService,
+              private formBuilder: FormBuilder,
               private titleService: Title) { }
 
   ngOnInit(): void {
-    this.appService.searchCarByMakeOrModel('tesla')
     this.getPreviousUrl();
     this.setBackButtonTitle();
     this.carDetails$ = this.getCarDetails();
@@ -70,6 +73,9 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('Our Fleet');
     this.getCarsByFuelType();
     this.setFuelTypes();
+    this.searchForm = this.formBuilder.group({
+      searchField: [''],
+    });
   }
 
   getPreviousUrl() {
@@ -145,6 +151,13 @@ export class CarHireComponent implements OnInit, OnDestroy {
   onFilterChange(selectedFilters: string[]) {
     this.currentSearchFilters = selectedFilters;
     this.sortCarsByFuelType(selectedFilters);
+  }
+
+  onSearchedTerm(searchTerm: string) {
+    this.filteredCarsByFuelType = [];
+    this.appService.searchCarByMakeOrModel(searchTerm).subscribe({
+      next: value => this.filteredCarsByFuelType = value
+    })
   }
 
   sortCarsByFuelType(selectedFuelTypes: string[]) {

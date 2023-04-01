@@ -16,6 +16,8 @@
       <app-search-bar
         [searchBarTitle]="searchBarTitle"
         [options]="filteredCarList"
+        [placeholder]="placeholder"
+        (searchEvent)="onSearchedTerm($event)"
         (selectedValue)="onFilterChange($event)"
         >
       </app-search-bar>
