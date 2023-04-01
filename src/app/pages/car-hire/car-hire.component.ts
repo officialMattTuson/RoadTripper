@@ -54,7 +54,8 @@ export class CarHireComponent implements OnInit, OnDestroy {
   carListingsByFuelClass = new Set();
   filteredCarList?: SelectButtonOption[];
   currentSearchFilters: string[] = [];
-  filteredCarsByFuelType: Car[] =[];
+  filteredCars: Car[] = [];
+  searchedCars: Car[] = [];
   searchForm!: FormGroup;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -72,7 +73,6 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.carDetails$.subscribe();
     this.titleService.setTitle('Our Fleet');
     this.getCarsByFuelType();
-    this.setFuelTypes();
     this.searchForm = this.formBuilder.group({
       searchField: [''],
     });
@@ -94,6 +94,11 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.backButtonTitle === 'Locations'
     ? this.router.navigateByUrl('locations')
     : this.router.navigateByUrl('home')
+  }
+
+  onFilterChange(selectedFilters: string[]) {
+    this.currentSearchFilters = selectedFilters;
+    this.sortCarsByFuelType(selectedFilters);
   }
 
   getCarDetails(): Observable<Car[]> {
@@ -123,56 +128,63 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.carDetails$.subscribe((carDetails) => {
       this.carListingsByFuelClass = new Set(carDetails.map(car => car.fuelClass));
       const carFuelTypes = Array.from(this.carListingsByFuelClass) as string[];
-      this.setFuelTypeFilter(carFuelTypes);
+      this.initializeFilter(carFuelTypes);
     });
   }
 
-  setFuelTypeFilter(fuelTypes: string[]) {
-    this.filteredCarList = fuelTypes.map(fuelType => {
-      if (fuelType === 'Electric') {
-        return {label: fuelType, value: fuelType, checked: true} as SelectButtonOption;
+  initializeFilter(fuelClasses: string[]) {
+    this.setFilteredCars();
+    this.filteredCarList = fuelClasses.map(fuelClass => {
+      if (fuelClass === 'Electric') {
+        return {label: fuelClass, value: fuelClass, checked: true} as SelectButtonOption;
       } 
-      return {label: fuelType, value: fuelType, checked: false} as SelectButtonOption;
+      return {label: fuelClass, value: fuelClass, checked: false} as SelectButtonOption;
     });
   }
 
-  setFuelTypes() {
+  setFilteredCars() {
     this.carDetails$.subscribe(carDetails => {
       carDetails.map(car => {
         if (car.fuelClass === 'Electric') {
-          this.filteredCarsByFuelType.push(car);
+          this.filteredCars.push(car);
         }
       })
-      this.currentSearchFilters.push('New Zealand')
-      return this.filteredCarsByFuelType;
+      return this.filteredCars;
     })
-  }
-
-  onFilterChange(selectedFilters: string[]) {
-    this.currentSearchFilters = selectedFilters;
-    this.sortCarsByFuelType(selectedFilters);
   }
 
   onSearchedTerm(searchTerm: string) {
-    this.filteredCarsByFuelType = [];
+    this.searchedCars = [];
     this.appService.searchCarByMakeOrModel(searchTerm).subscribe({
-      next: value => this.filteredCarsByFuelType = value
+      next: value => this.searchedCars = value,
+      error: error => console.log(error),
+      complete: () => this.combineFilterAndSearchList(this.searchedCars)
     })
   }
 
+  combineFilterAndSearchList(cars: Car[]) {
+    if (cars.length === 0 || this.filteredCars.length === 0) {
+      return this.filteredCars;
+    }
+    const carMap = new Map(cars.map(car => [car.make + car.model, car]));
+    const filteredCarsList = this.filteredCars.filter(car => carMap.has(car.make + car.model));
+    this.filteredCars = filteredCarsList;
+    return this.filteredCars;
+  }
+
   sortCarsByFuelType(selectedFuelTypes: string[]) {
-    this.filteredCarsByFuelType = [];
+    this.filteredCars = [];
     this.carDetails$.subscribe(carDetails => {
       carDetails.map(car => {   
         if (car.fuelClass === undefined) {
           return;
         }
         if (selectedFuelTypes.indexOf(car.fuelClass) > -1) {
-          this.filteredCarsByFuelType.push(car);
+          this.filteredCars.push(car);
         }
       })
       this.currentSearchFilters = selectedFuelTypes;
-      return this.filteredCarsByFuelType;
+      this.combineFilterAndSearchList(this.searchedCars);
     })
   }
 

@@ -30,7 +30,7 @@
     </div>
 
     <div class="car__wrap" *ngIf="cars$ | async as carDetails">
-      <mat-card class="car" *ngFor="let car of filteredCarsByFuelType">
+      <mat-card class="car" *ngFor="let car of filteredCars">
         <div class="car__top-border">
           <img class="car__image" src="{{car.image}}" alt="car">
           <mat-card-header class="car-header">
