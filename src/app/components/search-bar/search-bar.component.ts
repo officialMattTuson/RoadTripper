@@ -1,6 +1,6 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import {MatCheckboxChange} from '@angular/material/checkbox';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Subject, takeUntil } from 'rxjs';
 import { SelectButtonOption } from 'src/app/interfaces/interfaces';
 
