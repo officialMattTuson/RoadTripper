@@ -194,11 +194,11 @@ export class CarHireComponent implements OnInit, OnDestroy {
   getUniqueSet(filteredCars: Car[], searchedCars?: Car[]): Car[] {
     const combinedSet = new Set();
     if (searchedCars) {
+      console.log(searchedCars)
       const combinedList = filteredCars.filter(car => {
-        return searchedCars.some(searchedCar => 
-          car.make.includes(searchedCar.make)
-        );
+        return searchedCars.some(searchedCar => car.make === searchedCar.make);
       });
+      console.log(combinedList)
       const uniqueList = combinedList.filter(car => {
         if (combinedSet.has(car.id)) {
           return false;
