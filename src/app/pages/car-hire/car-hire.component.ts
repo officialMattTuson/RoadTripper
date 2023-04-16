@@ -49,13 +49,14 @@ export class CarHireComponent implements OnInit, OnDestroy {
   }));
 
   carDetails$!: Observable<Car[]>;
-  searchBarTitle = 'Filter By Fuel Type';
+  searchBarTitle = '';
   placeholder = 'Search Car By Make or Model';
   carListingsByFuelClass = new Set();
   filteredCarList?: SelectButtonOption[];
   currentSearchFilters: string[] = [];
   filteredCars: Car[] = [];
   searchedCars: Car[] = [];
+  carsMatchingCriteria: Car[] = [];
   searchForm!: FormGroup;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -98,6 +99,12 @@ export class CarHireComponent implements OnInit, OnDestroy {
 
   onFilterChange(selectedFilters: string[]) {
     this.currentSearchFilters = selectedFilters;
+    const fuelTypeCount = selectedFilters.length;
+    let searchBarTitle = 'Filter By Fuel Type';
+    if (fuelTypeCount > 0) {
+      searchBarTitle = fuelTypeCount > 1 ? `${fuelTypeCount} fuel types selected` : selectedFilters.toString();
+    }
+    this.searchBarTitle = searchBarTitle;
     this.sortCarsByFuelType(selectedFilters);
   }
 
@@ -146,10 +153,10 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.carDetails$.subscribe(carDetails => {
       carDetails.map(car => {
         if (car.fuelClass === 'Electric') {
-          this.filteredCars.push(car);
+          this.carsMatchingCriteria.push(car);
         }
       })
-      return this.filteredCars;
+      return this.carsMatchingCriteria;
     })
   }
 
@@ -158,18 +165,59 @@ export class CarHireComponent implements OnInit, OnDestroy {
     this.appService.searchCarByMakeOrModel(searchTerm).subscribe({
       next: value => this.searchedCars = value,
       error: error => console.log(error),
-      complete: () => this.combineFilterAndSearchList(this.searchedCars)
+      complete: () => this.combineFilterAndSearchList(this.filteredCars, this.searchedCars)
     })
   }
 
-  combineFilterAndSearchList(cars: Car[]) {
-    if (cars.length === 0 || this.filteredCars.length === 0) {
-      return this.filteredCars;
+  onResetSearchFilter() {
+    this.searchedCars = [];
+    this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
+  }
+
+  combineFilterAndSearchList(filteredCars: Car[], searchedCars: Car[]) {
+    switch (true) {
+      case (searchedCars.length === 0 && filteredCars.length === 0):
+        this.carsMatchingCriteria = [];
+        break;
+      case (searchedCars.length === 0):
+        this.carsMatchingCriteria = this.getUniqueSet(filteredCars);
+        break;
+      case (filteredCars.length === 0):
+        this.carsMatchingCriteria = searchedCars;
+        break;
+      default:
+        this.carsMatchingCriteria = this.getUniqueSet(filteredCars, searchedCars);
+        break;
+      }
+  }
+  
+  getUniqueSet(filteredCars: Car[], searchedCars?: Car[]): Car[] {
+    const combinedSet = new Set();
+    if (searchedCars) {
+      const combinedList = filteredCars.filter(car => {
+        return searchedCars.some(searchedCar => 
+          car.make.includes(searchedCar.make)
+        );
+      });
+      const uniqueList = combinedList.filter(car => {
+        if (combinedSet.has(car.id)) {
+          return false;
+        } else {
+          combinedSet.add(car.id); 
+          return true;
+        }
+      });
+      return uniqueList;
     }
-    const carMap = new Map(cars.map(car => [car.make + car.model, car]));
-    const filteredCarsList = this.filteredCars.filter(car => carMap.has(car.make + car.model));
-    this.filteredCars = filteredCarsList;
-    return this.filteredCars;
+    const uniqueList = filteredCars.filter(car => {
+      if (combinedSet.has(car.id)) {
+        return false;
+      } else {
+        combinedSet.add(car.id);
+        return true;
+      }
+    })
+    return uniqueList;
   }
 
   sortCarsByFuelType(selectedFuelTypes: string[]) {
@@ -184,7 +232,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
         }
       })
       this.currentSearchFilters = selectedFuelTypes;
-      this.combineFilterAndSearchList(this.searchedCars);
+      this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
     })
   }
 

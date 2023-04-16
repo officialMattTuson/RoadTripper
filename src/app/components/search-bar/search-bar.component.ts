@@ -17,6 +17,7 @@ export class SearchBarComponent {
 
   @Output() selectedValue = new EventEmitter<string[]>();
   @Output() searchEvent = new EventEmitter<string>();
+  @Output() clearEvent = new EventEmitter<string>();
 
   showSearchButton = false;
   selectedOptions: SelectButtonOption[] = [];
@@ -63,6 +64,8 @@ export class SearchBarComponent {
   reset() {
     this.searchTermControl.reset();
     this.showSearchButton = false;
+    this.clearEvent.emit(this.searchTermControl.value)
+
   }
 
   onAllChecked(event: MatCheckboxChange) {
