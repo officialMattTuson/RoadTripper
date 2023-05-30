@@ -9,5 +9,13 @@
     z-index: -1;
     overflow-x: hidden;
     mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 60%, transparent 100%);
+}
+
+@media (max-width: 500px) {
+  .main-image {
+    mask-image: none;
+    -webkit-mask-image: none;
+    left: 0;
+  }
 }

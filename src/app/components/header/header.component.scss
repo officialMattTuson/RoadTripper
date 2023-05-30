@@ -7,5 +7,14 @@
     margin: 4rem 0 4rem 2rem;
     font-weight: 900;
     font-size: 4rem;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 4rem;
 }
+
+@media (max-width: 500px) {
+    #header-title {
+      color: orange;
+      margin-block-start: 12rem;
+      margin-inline-end: 1rem;
+    }
+  }

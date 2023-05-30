@@ -8,8 +8,8 @@ import { UrlService } from '../services/url.service';
 })
 export class HomeComponent implements OnInit {
 
-  previousUrlString = ''
-  currentUrl = window.location.href
+  previousUrlString = '';
+  currentUrl = window.location.href;
 
   constructor(private urlService: UrlService) { }
 
