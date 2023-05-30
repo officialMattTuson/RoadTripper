@@ -15,12 +15,12 @@
 </header>
 
 <div class="country-filter" *ngIf="countriesSettled">
-  <app-search-bar
+  <app-filter-block
   [searchBarTitle]="searchBarTitle"
     [options]="countriesSettled"
     (selectedValue)="onFilterChange($event)"
     >
-  </app-search-bar>
+  </app-filter-block>
   <h1 *ngIf="currentSearchFilters.length > 0; else noFiltersSelected">
     {{ currentSearchFilters.length > 1 ? currentSearchFilters.length + ' countries' : currentSearchFilters }}
   </h1>

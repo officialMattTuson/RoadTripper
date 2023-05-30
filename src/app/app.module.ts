@@ -16,7 +16,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { LearningComponent } from './pages/lodge-package/learning/learning.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { FilterBlockComponent } from './components/filter-block/filter-block.component';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -27,6 +27,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { MatInputModule } from '@angular/material/input';
     NavbarComponent,
     HeroComponent,
     LearningComponent,
-    SearchBarComponent
+    FilterBlockComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,

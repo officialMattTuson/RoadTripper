@@ -1,27 +1,24 @@
 <div class="fleet">
     <div class="fleet__header">
-        <button 
+      <button 
         id="back-button"
         mat-raised-button
         (click)="onBackNavigation()">
-            <mat-icon>chevron_left</mat-icon>
-            <span class="back-button-text">{{backButtonTitle}}</span>
-        </button>
-        <h2 class="fleet__title">
-            Our Fleet
-        </h2>
+        <mat-icon>chevron_left</mat-icon>
+        <span class="back-button-text">{{backButtonTitle}}</span>
+      </button>
     </div>
 
     <div class="fuel-type-filter" *ngIf="filteredCarList">
-      <app-search-bar
+      <app-filter-block
         [searchBarTitle]="searchBarTitle"
         [options]="filteredCarList"
         [placeholder]="placeholder"
         (searchEvent)="onSearchedTerm($event)"
         (clearEvent)="onResetSearchFilter()"
         (selectedValue)="onFilterChange($event)"
-        >
-      </app-search-bar>
+      >
+      </app-filter-block>
     </div>
 
     <div class="car__wrap" *ngIf="cars$ | async as carDetails">
@@ -40,14 +37,16 @@
           <button 
             mat-raised-button 
             class="view-button"
-            routerLink="/locations">
+            routerLink="/locations"
+          >
             <mat-icon class="view-icon">location_on</mat-icon>
             Locations
           </button>
           <button
             disabled 
             mat-raised-button 
-            class="lodge-button">
+            class="lodge-button"
+          >
             <mat-icon class="lodge-icon">bed</mat-icon>
             Book Now
           </button>
