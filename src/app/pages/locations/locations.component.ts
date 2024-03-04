@@ -1,6 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { catchError, combineLatest, EMPTY, map, Observable, Subject, takeUntil } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  EMPTY,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
@@ -8,35 +16,37 @@ import { UrlService } from 'src/app/services/url.service';
 @Component({
   selector: 'app-locations',
   templateUrl: './locations.component.html',
-  styleUrls: ['./locations.component.scss']
+  styleUrls: ['./locations.component.scss'],
 })
 export class LocationsComponent implements OnInit, OnDestroy {
-
   countriesList = new Set();
-  searchBarTitle = 'Filter By Countries';
-  countriesSettled?: SelectButtonOption[];
+  countriesSettled: SelectButtonOption[] = [];
   categories!: string[];
   locationsSelected: Location[] = [];
-  
-  previousUrlString = '';
-  currentUrl = window.location.href;
-
-  locations$ = this.appService.getLocations().pipe(catchError(error => {
-    console.log(error)
-    return EMPTY;
-  }));
-  categories$ = this.appService.getCategories().pipe(catchError(error => {
-    console.log(error)
-    return EMPTY;
-  }));
   locationsWithMappedCategories$!: Observable<Location[]>;
   currentSearchFilters: string[] = [];
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  previousUrlString = '';
+  currentUrl = window.location.href;
 
-  constructor(private urlService: UrlService,
-              private appService: AppService,
-              private titleService: Title) { }
+  locations$ = this.appService.getLocations().pipe(
+    catchError(() => {
+      return EMPTY;
+    })
+  );
+  categories$ = this.appService.getCategories().pipe(
+    catchError(() => {
+      return EMPTY;
+    })
+  );
+
+  private destroy$ = new Subject<boolean>();
+
+  constructor(
+    private urlService: UrlService,
+    private appService: AppService,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
     this.getPreviousUrl();
@@ -54,13 +64,14 @@ export class LocationsComponent implements OnInit, OnDestroy {
   }
 
   getLocations(): Observable<Location[]> {
-    return combineLatest([this.locations$, this.categories$])
-    .pipe(
+    return combineLatest([this.locations$, this.categories$]).pipe(
       takeUntil(this.destroy$),
       map(([locations, categories]) =>
-        locations.map(location => ({
+        locations.map((location) => ({
           ...location,
-          category: categories.find(category => category.id === location.categoryId)?.name
+          category: categories.find(
+            (category) => category.id === location.categoryId
+          )?.name,
         }))
       )
     );
@@ -68,73 +79,77 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
   getCountries() {
     this.locationsWithMappedCategories$.subscribe((locations) => {
-      this.countriesList = new Set(locations.map(location => location.country));
+      this.countriesList = new Set(
+        locations.map((location) => location.country)
+      );
       const countriesListArray = Array.from(this.countriesList) as string[];
-      this.setCountryFilter(countriesListArray);
+      this.countriesSettled = this.setCountryFilter(countriesListArray);
     });
   }
 
-  setCountryFilter(countries: string[]) {
-    this.countriesSettled = countries.map(country => {
-      if (country === 'New Zealand') {
-        return {label: country, value: country, checked: true} as SelectButtonOption;
-      } 
-      return {label: country, value: country, checked: false} as SelectButtonOption;
+  setCountryFilter(countries: string[]): SelectButtonOption[] {
+    const countriesSelected = countries.map((country) => {
+      return {
+        label: country,
+        value: country,
+        checked: country === 'New Zealand',
+      } as SelectButtonOption;
     });
-
+    return countriesSelected;
   }
 
   setSelectedLocations() {
-    this.locationsWithMappedCategories$.subscribe(locations => {
-      locations.map(location => {
+    this.locationsWithMappedCategories$.subscribe((locations) => {
+      locations.map((location) => {
         if (location.country === 'New Zealand') {
           this.locationsSelected.push(location);
         }
-      })
-      this.currentSearchFilters.push('New Zealand')
+      });
+      this.currentSearchFilters.push('New Zealand');
       return this.locationsSelected;
-    })
+    });
   }
 
   showLocationsComingSoon() {
     this.locationsSelected = [];
-    this.locationsWithMappedCategories$.subscribe(locations => {
-      locations.map(location => {
+    this.locationsWithMappedCategories$.subscribe((locations) => {
+      locations.map((location) => {
         if (!location.isFinalized) {
           this.locationsSelected.push(location);
         }
-      })
+      });
       return this.locationsSelected;
-    })
+    });
   }
 
   sortLocationsByCountry(selectedCountries: string[]) {
     this.locationsSelected = [];
-    this.locationsWithMappedCategories$.subscribe(locations => {
-      locations.map(location => {   
+    this.locationsWithMappedCategories$.subscribe((locations) => {
+      locations.map((location) => {
         if (selectedCountries.indexOf(location.country) > -1) {
-          this.locationsSelected.push (location);
+          this.locationsSelected.push(location);
         }
-      })
+      });
       this.currentSearchFilters = selectedCountries;
-      console.log(this.locationsSelected)
       return this.locationsSelected;
-    })
+    });
   }
 
   getCategoryNames() {
-    this.categories$.pipe(
-      catchError(error => {
-        console.error(error);
-        return EMPTY;
-      }),
-      map(categories => {
-        const categoryNames = categories.map(category => category.name);
-        return categoryNames;
-      })
-    ).subscribe(
-      categories => this.categories = categories
-    )
+    this.categories$
+      .pipe(
+        catchError(() => {
+          return EMPTY;
+        }),
+        map((categories) => {
+          const categoryNames = categories.map((category) => category.name);
+          return categoryNames;
+        })
+      )
+      .subscribe((categories) => {
+        this.categories = categories;
+        console.log(categories);
+      });
   }
 
   onFilterChange(selectedFilters: string[]) {
@@ -142,7 +157,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
     if (selectedFilters.length === 0) {
       this.showLocationsComingSoon();
       return;
-    } 
+    }
     this.sortLocationsByCountry(selectedFilters);
   }
 
