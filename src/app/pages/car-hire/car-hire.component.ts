@@ -45,7 +45,6 @@ export class CarHireComponent implements OnInit {
     this.getPreviousUrl();
     this.setBackButtonTitle();
     this.carDetails$ = this.getCarDetails();
-    this.carDetails$.subscribe();
     this.titleService.setTitle('Our Fleet');
     this.getCarsByFuelType();
     this.searchForm = this.formBuilder.group({
