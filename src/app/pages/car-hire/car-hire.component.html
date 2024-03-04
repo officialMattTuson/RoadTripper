@@ -13,7 +13,7 @@
       <app-filter-block
         [searchBarTitle]="searchBarTitle"
         [options]="filteredCarList"
-        [placeholder]="placeholder"
+        placeholder="Search Car By Make or Model"
         (searchEvent)="onSearchedTerm($event)"
         (clearEvent)="onResetSearchFilter()"
         (selectedValue)="onFilterChange($event)"

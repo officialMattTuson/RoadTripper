@@ -15,26 +15,24 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeroComponent } from './components/hero/hero.component';
-import { LearningComponent } from './pages/lodge-package/learning/learning.component';
 import { FilterBlockComponent } from './components/filter-block/filter-block.component';
 
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCardModule} from '@angular/material/card';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatMenuModule} from '@angular/material/menu'
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    
-    // Pages 
+
+    // Pages
     HomeComponent,
     CarHireComponent,
     LocationsComponent,
@@ -46,7 +44,6 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     FooterComponent,
     NavbarComponent,
     HeroComponent,
-    LearningComponent,
     FilterBlockComponent,
     SearchBarComponent,
   ],
@@ -64,7 +61,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     FormsModule,
     MatCheckboxModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   exports: [
     MatButtonModule,
@@ -75,10 +72,9 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     MatMenuModule,
     MatCheckboxModule,
     MatFormFieldModule,
-    MatInputModule
-
+    MatInputModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

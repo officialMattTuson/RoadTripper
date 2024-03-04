@@ -21,10 +21,6 @@ import { UrlService } from 'src/app/services/url.service';
   styleUrls: ['./car-hire.component.scss'],
 })
 export class CarHireComponent implements OnInit, OnDestroy {
-  backButtonTitle = '';
-  previousUrlString!: string;
-  currentUrl = window.location.href;
-
   cars$ = this.appService.getAllCars().pipe(
     catchError((error) => {
       return EMPTY;
@@ -61,9 +57,11 @@ export class CarHireComponent implements OnInit, OnDestroy {
     })
   );
 
+  backButtonTitle = '';
+  previousUrlString!: string;
+  currentUrl = window.location.href;
   carDetails$!: Observable<Car[]>;
   searchBarTitle = 'Filter By Fuel Type';
-  placeholder = 'Search Car By Make or Model';
   carFuelTypes: string[] = [];
   filteredCarList?: SelectButtonOption[];
   currentSearchFilters: string[] = [];
@@ -72,7 +70,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
   carsMatchingCriteria: Car[] = [];
   searchForm!: FormGroup;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$ = new Subject<boolean>();
 
   constructor(
     private urlService: UrlService,
@@ -115,12 +113,16 @@ export class CarHireComponent implements OnInit, OnDestroy {
   onFilterChange(selectedFilters: string[]) {
     this.currentSearchFilters = selectedFilters;
     const fuelTypeCount = selectedFilters.length;
-    if (fuelTypeCount > 0) {
+
+    if (fuelTypeCount === 0) {
+      this.searchBarTitle = 'Select a fuel class';
+    } else {
       this.searchBarTitle =
         fuelTypeCount > 1
           ? `${fuelTypeCount} fuel types selected`
-          : selectedFilters.toString();
+          : selectedFilters[0];
     }
+
     this.sortCarsByFuelType(selectedFilters);
   }
 
@@ -178,17 +180,10 @@ export class CarHireComponent implements OnInit, OnDestroy {
   initializeFilter(fuelClasses: string[]) {
     this.setFilteredCars();
     this.filteredCarList = fuelClasses.map((fuelClass) => {
-      if (fuelClass === 'Electric') {
-        return {
-          label: fuelClass,
-          value: fuelClass,
-          checked: true,
-        } as SelectButtonOption;
-      }
       return {
         label: fuelClass,
         value: fuelClass,
-        checked: false,
+        checked: fuelClass === 'Electric',
       } as SelectButtonOption;
     });
   }
