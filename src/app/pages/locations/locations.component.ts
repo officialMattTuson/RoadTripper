@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { combineLatest, map, Observable, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
@@ -27,12 +26,10 @@ export class LocationsComponent implements OnInit {
   constructor(
     private urlService: UrlService,
     private appService: AppService,
-    private titleService: Title
   ) {}
 
   ngOnInit(): void {
     this.getPreviousUrl();
-    this.titleService.setTitle('Locations');
     this.locationsWithMappedCategories$ = this.getLocations();
     this.getCountries();
     this.getCategoryNames();

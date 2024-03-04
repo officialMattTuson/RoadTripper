@@ -14,7 +14,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   previousUrl = 'home';
   currentUrl = '';
-  title = 'road-tripper';
 
   private readonly destroy$ = new Subject();
   
@@ -32,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
   ngOnInit(): void {
-    this.urlService.previousUrl$.subscribe((value) => {
+    this.urlService.previousUrl$.subscribe(() => {
       this.currentUrl = window.location.href
     })
   }

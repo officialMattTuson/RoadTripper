@@ -8,11 +8,11 @@ import { ServicesComponent } from './pages/services/services.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
-  { path: 'home', component: HomeComponent },
-  { path: 'car-hire', component: CarHireComponent },
-  { path: 'locations', component: LocationsComponent },
-  { path: 'lodge-package', component: LodgePackageComponent },
-  { path: 'services', component: ServicesComponent },
+  { path: 'home', component: HomeComponent, title: 'Road Tripper' },
+  { path: 'car-hire', component: CarHireComponent, title: 'Our Fleet' },
+  { path: 'locations', component: LocationsComponent, title: 'Locations' },
+  { path: 'lodge-package', component: LodgePackageComponent, title: 'Lodge Packages' },
+  { path: 'services', component: ServicesComponent, title: 'Other Services' },
 ];
 
 @NgModule({

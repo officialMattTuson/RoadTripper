@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { combineLatest, map, Observable, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
@@ -21,7 +20,7 @@ export class CarHireComponent implements OnInit {
   transmissions$ = this.appService.getTransmissions();
 
   backButtonTitle = '';
-  previousUrlString!: string;
+  previousUrlString = '';
   currentUrl = window.location.href;
   carDetails$!: Observable<Car[]>;
   searchBarTitle = 'Filter By Fuel Type';
@@ -38,14 +37,12 @@ export class CarHireComponent implements OnInit {
     private router: Router,
     private appService: AppService,
     private formBuilder: FormBuilder,
-    private titleService: Title
   ) {}
 
   ngOnInit(): void {
     this.getPreviousUrl();
     this.setBackButtonTitle();
     this.carDetails$ = this.getCarDetails();
-    this.titleService.setTitle('Our Fleet');
     this.getCarsByFuelType();
     this.searchForm = this.formBuilder.group({
       searchField: [''],
