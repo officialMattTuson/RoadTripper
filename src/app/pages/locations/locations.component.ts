@@ -1,14 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import {
-  catchError,
-  combineLatest,
-  EMPTY,
-  map,
-  Observable,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { combineLatest, map, Observable, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
@@ -18,7 +10,7 @@ import { UrlService } from 'src/app/services/url.service';
   templateUrl: './locations.component.html',
   styleUrls: ['./locations.component.scss'],
 })
-export class LocationsComponent implements OnInit, OnDestroy {
+export class LocationsComponent implements OnInit {
   countriesList = new Set();
   countriesSettled: SelectButtonOption[] = [];
   categories!: string[];
@@ -29,18 +21,8 @@ export class LocationsComponent implements OnInit, OnDestroy {
   previousUrlString = '';
   currentUrl = window.location.href;
 
-  locations$ = this.appService.getLocations().pipe(
-    catchError(() => {
-      return EMPTY;
-    })
-  );
-  categories$ = this.appService.getCategories().pipe(
-    catchError(() => {
-      return EMPTY;
-    })
-  );
-
-  private destroy$ = new Subject<boolean>();
+  locations$ = this.appService.getLocations();
+  categories$ = this.appService.getCategories();
 
   constructor(
     private urlService: UrlService,
@@ -58,14 +40,14 @@ export class LocationsComponent implements OnInit, OnDestroy {
   }
 
   getPreviousUrl() {
-    this.urlService.previousUrl$.subscribe((previousUrl) => {
+    this.urlService.previousUrl$.pipe(take(1)).subscribe((previousUrl) => {
       this.previousUrlString = previousUrl;
     });
   }
 
   getLocations(): Observable<Location[]> {
     return combineLatest([this.locations$, this.categories$]).pipe(
-      takeUntil(this.destroy$),
+      take(1),
       map(([locations, categories]) =>
         locations.map((location) => ({
           ...location,
@@ -78,7 +60,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
   }
 
   getCountries() {
-    this.locationsWithMappedCategories$.subscribe((locations) => {
+    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
       this.countriesList = new Set(
         locations.map((location) => location.country)
       );
@@ -99,7 +81,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
   }
 
   setSelectedLocations() {
-    this.locationsWithMappedCategories$.subscribe((locations) => {
+    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
       locations.map((location) => {
         if (location.country === 'New Zealand') {
           this.locationsSelected.push(location);
@@ -112,7 +94,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
   showLocationsComingSoon() {
     this.locationsSelected = [];
-    this.locationsWithMappedCategories$.subscribe((locations) => {
+    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
       locations.map((location) => {
         if (!location.isFinalized) {
           this.locationsSelected.push(location);
@@ -124,7 +106,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
 
   sortLocationsByCountry(selectedCountries: string[]) {
     this.locationsSelected = [];
-    this.locationsWithMappedCategories$.subscribe((locations) => {
+    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
       locations.map((location) => {
         if (selectedCountries.indexOf(location.country) > -1) {
           this.locationsSelected.push(location);
@@ -138,9 +120,7 @@ export class LocationsComponent implements OnInit, OnDestroy {
   getCategoryNames() {
     this.categories$
       .pipe(
-        catchError(() => {
-          return EMPTY;
-        }),
+        take(1),
         map((categories) => {
           const categoryNames = categories.map((category) => category.name);
           return categoryNames;
@@ -148,7 +128,6 @@ export class LocationsComponent implements OnInit, OnDestroy {
       )
       .subscribe((categories) => {
         this.categories = categories;
-        console.log(categories);
       });
   }
 
@@ -159,10 +138,5 @@ export class LocationsComponent implements OnInit, OnDestroy {
       return;
     }
     this.sortLocationsByCountry(selectedFilters);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

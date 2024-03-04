@@ -1,16 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import {
-  catchError,
-  combineLatest,
-  EMPTY,
-  map,
-  Observable,
-  Subject,
-  takeUntil,
-} from 'rxjs';
+import { combineLatest, map, Observable, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Car, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
@@ -20,42 +12,13 @@ import { UrlService } from 'src/app/services/url.service';
   templateUrl: './car-hire.component.html',
   styleUrls: ['./car-hire.component.scss'],
 })
-export class CarHireComponent implements OnInit, OnDestroy {
-  cars$ = this.appService.getAllCars().pipe(
-    catchError((error) => {
-      return EMPTY;
-    })
-  );
-
-  carTypes$ = this.appService.getCarTypes().pipe(
-    catchError((error) => {
-      return EMPTY;
-    })
-  );
-
-  fuelCategories$ = this.appService.getFuelCategories().pipe(
-    catchError((error) => {
-      return EMPTY;
-    })
-  );
-
-  fuelClasses$ = this.appService.getFuelClass().pipe(
-    catchError((error) => {
-      return EMPTY;
-    })
-  );
-
-  experienceTypes$ = this.appService.getExperienceTypes().pipe(
-    catchError((error) => {
-      return EMPTY;
-    })
-  );
-
-  transmissions$ = this.appService.getTransmissions().pipe(
-    catchError((error) => {
-      return EMPTY;
-    })
-  );
+export class CarHireComponent implements OnInit {
+  cars$ = this.appService.getAllCars();
+  carTypes$ = this.appService.getCarTypes();
+  fuelCategories$ = this.appService.getFuelCategories();
+  fuelClasses$ = this.appService.getFuelClass();
+  experienceTypes$ = this.appService.getExperienceTypes();
+  transmissions$ = this.appService.getTransmissions();
 
   backButtonTitle = '';
   previousUrlString!: string;
@@ -69,8 +32,6 @@ export class CarHireComponent implements OnInit, OnDestroy {
   searchedCars: Car[] = [];
   carsMatchingCriteria: Car[] = [];
   searchForm!: FormGroup;
-
-  private destroy$ = new Subject<boolean>();
 
   constructor(
     private urlService: UrlService,
@@ -135,7 +96,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
       this.experienceTypes$,
       this.transmissions$,
     ]).pipe(
-      takeUntil(this.destroy$),
+      take(1),
       map(
         ([
           cars,
@@ -168,7 +129,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
   }
 
   getCarsByFuelType() {
-    this.carDetails$.subscribe((carDetails) => {
+    this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
       const carListingsByFuelClass = new Set(
         carDetails.map((car) => car.fuelClass)
       );
@@ -189,7 +150,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
   }
 
   setFilteredCars() {
-    this.carDetails$.subscribe((carDetails) => {
+    this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
       carDetails.map((car) => {
         if (car.fuelClass === 'Electric') {
           this.carsMatchingCriteria.push(car);
@@ -201,12 +162,15 @@ export class CarHireComponent implements OnInit, OnDestroy {
 
   onSearchedTerm(searchTerm: string) {
     this.searchedCars = [];
-    this.appService.searchCarByMakeOrModel(searchTerm).subscribe({
-      next: (value) => (this.searchedCars = value),
-      error: (error) => console.log(error),
-      complete: () =>
-        this.combineFilterAndSearchList(this.filteredCars, this.searchedCars),
-    });
+    this.appService
+      .searchCarByMakeOrModel(searchTerm)
+      .pipe(take(1))
+      .subscribe({
+        next: (value) => (this.searchedCars = value),
+        error: (error) => console.log(error),
+        complete: () =>
+          this.combineFilterAndSearchList(this.filteredCars, this.searchedCars),
+      });
   }
 
   onResetSearchFilter() {
@@ -268,7 +232,7 @@ export class CarHireComponent implements OnInit, OnDestroy {
       selectedFuelTypes = this.carFuelTypes;
     }
     this.filteredCars = [];
-    this.carDetails$.subscribe((carDetails) => {
+    this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
       carDetails.map((car) => {
         if (car.fuelClass === undefined) {
           return;
@@ -280,10 +244,5 @@ export class CarHireComponent implements OnInit, OnDestroy {
       this.currentSearchFilters = selectedFuelTypes;
       this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

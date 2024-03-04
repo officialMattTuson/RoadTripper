@@ -36,9 +36,6 @@ export class FilterBlockComponent {
   }
 
   ngOnInit(): void {
-    this.currentUrl.includes('locations') ? 
-    this.onChange({label: 'New Zealand', value: 'New Zealand', checked: true}) :
-    this.onChange({label: 'Electric', value: 'Electric', checked: true});
     this.observeSearchField();
   }
 
