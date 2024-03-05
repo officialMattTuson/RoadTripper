@@ -40,7 +40,6 @@ export interface AvailableCar {
   carId: number;
   numberOfCars: number;
 }
-
 export interface Category {
   id: string;
   name: string;

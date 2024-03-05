@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { combineLatest, map, Observable, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Car, SelectButtonOption } from 'src/app/interfaces/interfaces';
+import { CarsService } from 'src/app/services/cars-service';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -33,10 +34,11 @@ export class CarHireComponent implements OnInit {
   searchForm!: FormGroup;
 
   constructor(
-    private urlService: UrlService,
-    private router: Router,
-    private appService: AppService,
-    private formBuilder: FormBuilder,
+    private readonly urlService: UrlService,
+    private readonly router: Router,
+    private readonly appService: AppService,
+    private readonly carsService: CarsService,
+    private readonly formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -126,6 +128,7 @@ export class CarHireComponent implements OnInit {
 
   getCarsByFuelType() {
     this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
+      this.carsService.setCarDetails(carDetails);
       const carListingsByFuelClass = new Set(
         carDetails.map((car) => car.fuelClass)
       );

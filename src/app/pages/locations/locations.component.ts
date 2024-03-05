@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { combineLatest, map, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
+import { AvailabilityPopupComponent } from 'src/app/components/availability-popup/availability-popup.component';
 import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
 
@@ -23,7 +25,11 @@ export class LocationsComponent implements OnInit {
   locations$ = this.appService.getLocations();
   categories$ = this.appService.getCategories();
 
-  constructor(private urlService: UrlService, private appService: AppService) {}
+  constructor(
+    private readonly urlService: UrlService,
+    private readonly appService: AppService,
+    private readonly dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getPreviousUrl();
@@ -128,5 +134,14 @@ export class LocationsComponent implements OnInit {
       return;
     }
     this.sortLocationsByCountry(selectedFilters);
+  }
+
+  openAvailabilityPopup(location: Location) {
+    const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
+      data: location,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 }

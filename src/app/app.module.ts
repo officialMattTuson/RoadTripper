@@ -26,7 +26,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { AvailabilityPopupComponent } from './components/availability-popup/availability-popup.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     HeroComponent,
     FilterBlockComponent,
     SearchBarComponent,
+    AvailabilityPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
   ],
   exports: [
     MatButtonModule,
@@ -73,6 +77,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -50,8 +50,11 @@
         {{location.brief}}
     </mat-card-content>
     <mat-card-actions class="card-actions">
-      <button mat-raised-button 
-        class="view-button">
+      <button 
+        mat-raised-button 
+        class="view-button"
+        (click)="openAvailabilityPopup(location)"
+      >
         <mat-icon class="view-icon">location_on</mat-icon>
         View Availability
       </button>
