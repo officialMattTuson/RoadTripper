@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { combineLatest, map, Observable, take } from 'rxjs';
+import { take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Car, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { CarsService } from 'src/app/services/cars-service';
@@ -13,17 +13,10 @@ import { UrlService } from 'src/app/services/url.service';
   styleUrls: ['./car-hire.component.scss'],
 })
 export class CarHireComponent implements OnInit {
-  cars$ = this.appService.getAllCars();
-  carTypes$ = this.appService.getCarTypes();
-  fuelCategories$ = this.appService.getFuelCategories();
-  fuelClasses$ = this.appService.getFuelClass();
-  experienceTypes$ = this.appService.getExperienceTypes();
-  transmissions$ = this.appService.getTransmissions();
-
   backButtonTitle = '';
   previousUrlString = '';
   currentUrl = window.location.href;
-  carDetails$!: Observable<Car[]>;
+  carDetails: Car[] = [];
   searchBarTitle = 'Filter By Fuel Type';
   carFuelTypes: string[] = [];
   filteredCarList?: SelectButtonOption[];
@@ -44,8 +37,7 @@ export class CarHireComponent implements OnInit {
   ngOnInit(): void {
     this.getPreviousUrl();
     this.setBackButtonTitle();
-    this.carDetails$ = this.getCarDetails();
-    this.getCarsByFuelType();
+    this.getCarDetails();
     this.searchForm = this.formBuilder.group({
       searchField: [''],
     });
@@ -85,60 +77,26 @@ export class CarHireComponent implements OnInit {
     this.sortCarsByFuelType(selectedFilters);
   }
 
-  getCarDetails(): Observable<Car[]> {
-    return combineLatest([
-      this.cars$,
-      this.carTypes$,
-      this.fuelCategories$,
-      this.fuelClasses$,
-      this.experienceTypes$,
-      this.transmissions$,
-    ]).pipe(
-      take(1),
-      map(
-        ([
-          cars,
-          carTypes,
-          fuelCategories,
-          fuelClasses,
-          experienceTypes,
-          transmissions,
-        ]) => {
-          return cars.map((car) => ({
-            ...car,
-            carType: carTypes.find((carType) => carType.id === car.bodyType)
-              ?.name,
-            fuelCategory: fuelCategories.find(
-              (category) => category.id === car.fuelCategory
-            )?.class,
-            fuelClass: fuelClasses.find(
-              (fuelClass) => fuelClass.id === car.fuelClass
-            )?.name,
-            experience: experienceTypes.find(
-              (experience) => experience.id === car.experience
-            )?.name,
-            transmission: transmissions.find(
-              (transmission) => transmission.id === car.transmission
-            )?.name,
-          }));
-        }
-      )
-    );
-  }
-
-  getCarsByFuelType() {
-    this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
-      this.carsService.setCarDetails(carDetails);
-      const carListingsByFuelClass = new Set(
-        carDetails.map((car) => car.fuelClass)
-      );
-      this.carFuelTypes = Array.from(carListingsByFuelClass) as string[];
-      this.initializeFilter(this.carFuelTypes);
+  getCarDetails() {
+    this.carsService.carDetails$.pipe(take(1)).subscribe({
+      next: (carDetails) => {
+        this.carDetails = carDetails;
+        this.carsService.setCarDetails(carDetails);
+        this.getCarsByFuelType(carDetails);
+      },
     });
   }
 
+  getCarsByFuelType(carDetails: Car[]) {
+    const carListingsByFuelClass = new Set(
+      carDetails.map((car) => car.fuelClass)
+    );
+    this.carFuelTypes = Array.from(carListingsByFuelClass) as string[];
+    this.setFilteredCars(carDetails);
+    this.initializeFilter(this.carFuelTypes);
+  }
+
   initializeFilter(fuelClasses: string[]) {
-    this.setFilteredCars();
     this.filteredCarList = fuelClasses.map((fuelClass) => {
       return {
         label: fuelClass,
@@ -148,15 +106,13 @@ export class CarHireComponent implements OnInit {
     });
   }
 
-  setFilteredCars() {
-    this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
-      carDetails.map((car) => {
-        if (car.fuelClass === 'Electric') {
-          this.carsMatchingCriteria.push(car);
-        }
-      });
-      return this.carsMatchingCriteria;
+  setFilteredCars(carDetails: Car[]) {
+    carDetails.map((car) => {
+      if (car.fuelClass === 'Electric') {
+        this.carsMatchingCriteria.push(car);
+      }
     });
+    return this.carsMatchingCriteria;
   }
 
   onSearchedTerm(searchTerm: string) {
@@ -231,17 +187,15 @@ export class CarHireComponent implements OnInit {
       selectedFuelTypes = this.carFuelTypes;
     }
     this.filteredCars = [];
-    this.carDetails$.pipe(take(1)).subscribe((carDetails) => {
-      carDetails.map((car) => {
-        if (car.fuelClass === undefined) {
-          return;
-        }
-        if (selectedFuelTypes.indexOf(car.fuelClass) > -1) {
-          this.filteredCars.push(car);
-        }
-      });
-      this.currentSearchFilters = selectedFuelTypes;
-      this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
+    this.carDetails.map((car) => {
+      if (car.fuelClass === undefined) {
+        return;
+      }
+      if (selectedFuelTypes.indexOf(car.fuelClass) > -1) {
+        this.filteredCars.push(car);
+      }
     });
+    this.currentSearchFilters = selectedFuelTypes;
+    this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
   }
 }
