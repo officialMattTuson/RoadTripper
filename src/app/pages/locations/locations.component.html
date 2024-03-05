@@ -29,7 +29,7 @@
   </ng-template>
 </div>
 
-<div class="location_card-wrap" *ngIf="locationsWithMappedCategories$ | async as locations">
+<div class="location_card-wrap" *ngIf="locations">
   <mat-card *ngFor="let location of locationsSelected" 
     class="location" 
     [ngClass]="{'location-disabled': !location.isFinalized}">

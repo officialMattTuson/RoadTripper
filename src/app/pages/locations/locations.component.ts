@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { combineLatest, map, Observable, take } from 'rxjs';
+import { combineLatest, map, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
@@ -14,7 +14,7 @@ export class LocationsComponent implements OnInit {
   countriesSettled: SelectButtonOption[] = [];
   categories!: string[];
   locationsSelected: Location[] = [];
-  locationsWithMappedCategories$!: Observable<Location[]>;
+  locations: Location[] = [];
   currentSearchFilters: string[] = [];
 
   previousUrlString = '';
@@ -23,17 +23,12 @@ export class LocationsComponent implements OnInit {
   locations$ = this.appService.getLocations();
   categories$ = this.appService.getCategories();
 
-  constructor(
-    private urlService: UrlService,
-    private appService: AppService,
-  ) {}
+  constructor(private urlService: UrlService, private appService: AppService) {}
 
   ngOnInit(): void {
     this.getPreviousUrl();
-    this.locationsWithMappedCategories$ = this.getLocations();
-    this.getCountries();
+    this.getLocations();
     this.getCategoryNames();
-    this.setSelectedLocations();
   }
 
   getPreviousUrl() {
@@ -42,28 +37,53 @@ export class LocationsComponent implements OnInit {
     });
   }
 
-  getLocations(): Observable<Location[]> {
-    return combineLatest([this.locations$, this.categories$]).pipe(
-      take(1),
-      map(([locations, categories]) =>
-        locations.map((location) => ({
-          ...location,
-          category: categories.find(
-            (category) => category.id === location.categoryId
-          )?.name,
-        }))
+  getLocations() {
+    combineLatest([this.locations$, this.categories$])
+      .pipe(
+        take(1),
+        map(([locations, categories]) =>
+          locations.map((location) => ({
+            ...location,
+            category: categories.find(
+              (category) => category.id === location.categoryId
+            )?.name,
+          }))
+        )
       )
-    );
+      .subscribe((locations: Location[]) => {
+        this.locations = locations;
+        this.getCountries(locations);
+        this.setInitialFilteredLocations(locations);
+      });
   }
 
-  getCountries() {
-    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
-      this.countriesList = new Set(
-        locations.map((location) => location.country)
-      );
-      const countriesListArray = Array.from(this.countriesList) as string[];
-      this.countriesSettled = this.setCountryFilter(countriesListArray);
+  getCountries(locations: Location[]) {
+    const countriesList = new Set(
+      locations.map((location) => location.country)
+    );
+    const countriesListArray = Array.from(countriesList);
+    this.countriesSettled = this.setCountryFilter(countriesListArray);
+  }
+
+  setInitialFilteredLocations(locations: Location[]) {
+    locations.forEach((location) => {
+      if (location.country === 'New Zealand') {
+        this.locationsSelected.push(location);
+      }
     });
+    this.currentSearchFilters.push('New Zealand');
+    this.sortLocationsByCountry(this.currentSearchFilters);
+  }
+
+  sortLocationsByCountry(selectedCountries: string[]) {
+    this.locationsSelected = [];
+    this.locations.map((location) => {
+      if (selectedCountries.indexOf(location.country) > -1) {
+        this.locationsSelected.push(location);
+      }
+    });
+    this.currentSearchFilters = selectedCountries;
+    return this.locationsSelected;
   }
 
   setCountryFilter(countries: string[]): SelectButtonOption[] {
@@ -77,41 +97,14 @@ export class LocationsComponent implements OnInit {
     return countriesSelected;
   }
 
-  setSelectedLocations() {
-    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
-      locations.map((location) => {
-        if (location.country === 'New Zealand') {
-          this.locationsSelected.push(location);
-        }
-      });
-      this.currentSearchFilters.push('New Zealand');
-      return this.locationsSelected;
-    });
-  }
-
   showLocationsComingSoon() {
     this.locationsSelected = [];
-    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
-      locations.map((location) => {
-        if (!location.isFinalized) {
-          this.locationsSelected.push(location);
-        }
-      });
-      return this.locationsSelected;
+    this.locations.map((location) => {
+      if (!location.isFinalized) {
+        this.locationsSelected.push(location);
+      }
     });
-  }
-
-  sortLocationsByCountry(selectedCountries: string[]) {
-    this.locationsSelected = [];
-    this.locationsWithMappedCategories$.pipe(take(1)).subscribe((locations) => {
-      locations.map((location) => {
-        if (selectedCountries.indexOf(location.country) > -1) {
-          this.locationsSelected.push(location);
-        }
-      });
-      this.currentSearchFilters = selectedCountries;
-      return this.locationsSelected;
-    });
+    return this.locationsSelected;
   }
 
   getCategoryNames() {
