@@ -109,7 +109,7 @@ const transmissionType: Transmission[] = [
 
 const carSetData = [
   {
-    id: chance.guid(),
+    id: 10001,
     make: 'Tesla',
     model: 'Model S',
     year: '2021',
@@ -125,7 +125,7 @@ const carSetData = [
     description: "The Tesla's sleek design and state-of-the-art technology make it the perfect choice for drivers who want to make a statement while minimizing their environmental impact."
   },
   {
-    id: chance.guid(),
+    id: 10002,
     make: 'Tesla',
     model: 'Model Y',
     year: '2019',
@@ -141,7 +141,7 @@ const carSetData = [
     description: "State of the Art Technology meets, comfort, packing space and desire for a cleaner environment."
   },
   {
-    id: chance.guid(),
+    id: 10003,
     make: 'Byd',
     model: 'ATT0',
     year: '2022',
@@ -157,7 +157,7 @@ const carSetData = [
     description: "The BYD ATT0 3 is a compact electric hatchback with a sleek design and a range of advanced features, ideal for urban driving."
   },
   {
-    id: chance.guid(),
+    id: 10004,
     make: 'Kia',
     model: 'Carnival',
     year: '2002',
@@ -173,7 +173,7 @@ const carSetData = [
     description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
   },
     {
-    id: chance.guid(),
+    id: 10005,
     make: 'Kia',
     model: 'Sorento',
     year: '2007',
@@ -189,7 +189,7 @@ const carSetData = [
     description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
   },
   {
-    id: chance.guid(),
+    id: 10006,
     make: 'Ford',
     model: 'Ranger',
     year: '2010',
@@ -205,7 +205,7 @@ const carSetData = [
     description: "The Kia Carnival is a spacious and versatile minivan with comfortable seating and a range of features designed for family transportation."
   },
   {
-    id: chance.guid(),
+    id: 10007,
     make: 'Chevrolet',
     model: 'Cruze',
     year: '2019',
@@ -221,7 +221,7 @@ const carSetData = [
     description: 'The Chevrolet Cruze is a practical and efficient compact car that is perfect for drivers who want an affordable and reliable vehicle'
   },
   {
-    id: chance.guid(),
+    id: 10008,
     make: 'Mercedes',
     model: 'S Class',
     year: '2020',
