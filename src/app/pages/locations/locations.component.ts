@@ -14,7 +14,7 @@ export class LocationsComponent implements OnInit {
   countriesSettled: SelectButtonOption[] = [];
   categories!: string[];
   locationsSelected: Location[] = [];
-  locations: Location[] = [];
+  locationsList: Location[] = [];
   currentSearchFilters: string[] = [];
 
   previousUrlString = '';
@@ -51,7 +51,7 @@ export class LocationsComponent implements OnInit {
         )
       )
       .subscribe((locations: Location[]) => {
-        this.locations = locations;
+        this.locationsList = locations;
         this.getCountries(locations);
         this.setInitialFilteredLocations(locations);
       });
@@ -77,7 +77,7 @@ export class LocationsComponent implements OnInit {
 
   sortLocationsByCountry(selectedCountries: string[]) {
     this.locationsSelected = [];
-    this.locations.map((location) => {
+    this.locationsList.map((location) => {
       if (selectedCountries.indexOf(location.country) > -1) {
         this.locationsSelected.push(location);
       }
@@ -99,7 +99,7 @@ export class LocationsComponent implements OnInit {
 
   showLocationsComingSoon() {
     this.locationsSelected = [];
-    this.locations.map((location) => {
+    this.locationsList.map((location) => {
       if (!location.isFinalized) {
         this.locationsSelected.push(location);
       }
