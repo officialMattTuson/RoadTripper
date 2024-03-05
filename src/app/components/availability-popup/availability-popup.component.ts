@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AppService } from 'src/app/app.service';
-import { Car } from 'src/app/interfaces/interfaces';
+import { take } from 'rxjs';
+import { Car, Location } from 'src/app/interfaces/interfaces';
 import { CarsService } from 'src/app/services/cars-service';
 
 @Component({
@@ -11,18 +11,48 @@ import { CarsService } from 'src/app/services/cars-service';
 })
 export class AvailabilityPopupComponent implements OnInit {
   availableCars: Car[] = [];
-  carDetails$ = this.carsService.carDetails$;
+  currentIndex: number = 0;
+  selectedLocation!: Location;
 
   constructor(
     public dialogRef: MatDialogRef<AvailabilityPopupComponent>,
-    private readonly appService: AppService,
     private readonly carsService: CarsService,
     @Inject(MAT_DIALOG_DATA) public data: Location
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
-    this.carDetails$.subscribe((cars) => console.log(cars));
+    this.selectedLocation = this.data;
+    this.getCarDetails();
+  }
+
+  getCarDetails() {
+    this.carsService.carDetails$.pipe(take(1)).subscribe({
+      next: (cars) => {
+        cars.map((car) => {
+          this.selectedLocation.carsAvailable?.forEach((availableCar) => {
+            if (availableCar.carId === car.id) {
+              this.availableCars.push(car);
+            }
+          });
+        });
+      },
+    });
+  }
+
+  nextCar(): void {
+    if (this.currentIndex < this.availableCars.length - 1) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
+    }
+  }
+
+  prevCar(): void {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    } else {
+      this.currentIndex = this.availableCars.length - 1;
+    }
   }
 
   closePopup(): void {
