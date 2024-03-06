@@ -23,12 +23,24 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="carousel-buttons">
-    <button mat-icon-button (click)="prevCar()">
-      <mat-icon>chevron_left</mat-icon>
+  <div class="carousel__button-container">
+    <button
+      class="carousel__button"
+      mat-icon-button
+      (click)="prevCar()"
+      matTooltip="Previous car"
+      matTooltipPosition="above"
+    >
+      <mat-icon color="primary">chevron_left</mat-icon>
     </button>
-    <button mat-icon-button (click)="nextCar()">
-      <mat-icon>chevron_right</mat-icon>
+    <button
+      class="carousel__button"
+      mat-icon-button
+      (click)="nextCar()"
+      matTooltip="Next car"
+      matTooltipPosition="above"
+    >
+      <mat-icon color="primary">chevron_right</mat-icon>
     </button>
   </div>
   <button mat-raised-button color="warn" id="close-btn" (click)="closePopup()">

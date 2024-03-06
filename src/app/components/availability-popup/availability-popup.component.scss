@@ -1,7 +1,7 @@
 .popup-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
   position: relative;
 }
@@ -11,31 +11,18 @@
   position: relative; 
 }
 
-.car {
-  display: none; 
-}
-
 .car.active {
   display: block; 
 }
 
 .car {
+  display: none; 
   position: relative;
   width: 15rem;
   height: 20rem;
   flex-shrink: 1;
   flex-grow: 0;
   background-color: antiquewhite;
-
-  &__wrap {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    margin-block-start: 4rem;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 3rem;
-  }
 
   &__top-border {
     border: 3px solid black;
@@ -84,21 +71,41 @@
   }
 }
 
-.card {
-  &-content {
-    position: absolute;
-    bottom: 0;
-    margin: 0 1.5rem 5rem 1rem;
-    text-align: center;
+::ng-deep {
+  .mat-dialog-container {
+    background-color: antiquewhite;
   }
+}
 
-  &-actions {
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.carousel__button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.carousel__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 900;
+
+  & mat-icon {
     display: flex;
-    justify-content: space-between;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: 1rem;
+    align-items: center;
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
   }
 }
