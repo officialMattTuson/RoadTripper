@@ -29,6 +29,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AvailabilityPopupComponent } from './components/availability-popup/availability-popup.component';
+import { BookingRequestComponent } from './booking-request/booking-request.component';
+import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { AvailabilityPopupComponent } from './components/availability-popup/avai
     FilterBlockComponent,
     SearchBarComponent,
     AvailabilityPopupComponent,
+    BookingRequestComponent,
+    BookingConfirmationComponent,
   ],
   imports: [
     BrowserModule,
