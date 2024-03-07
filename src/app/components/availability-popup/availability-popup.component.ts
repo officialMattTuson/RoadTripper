@@ -1,7 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs';
-import { Car, Location } from 'src/app/interfaces/interfaces';
+import {
+  AvailableCar,
+  AvailableCarFullModel,
+  Car,
+  Location,
+} from 'src/app/interfaces/interfaces';
 import { CarsService } from 'src/app/services/cars-service';
 
 @Component({
@@ -10,7 +15,7 @@ import { CarsService } from 'src/app/services/cars-service';
   styleUrls: ['./availability-popup.component.scss'],
 })
 export class AvailabilityPopupComponent implements OnInit {
-  availableCars: Car[] = [];
+  availableCars: AvailableCarFullModel[] = [];
   currentIndex: number = 0;
   selectedLocation!: Location;
 
@@ -31,7 +36,11 @@ export class AvailabilityPopupComponent implements OnInit {
         cars.map((car) => {
           this.selectedLocation.carsAvailable?.forEach((availableCar) => {
             if (availableCar.carId === car.id) {
-              this.availableCars.push(car);
+              let carObject: AvailableCarFullModel = {
+                numberOfCars: availableCar.numberOfCars,
+                ...car,
+              };
+              this.availableCars.push(carObject);
             }
           });
         });

@@ -18,10 +18,8 @@
 .car {
   display: none; 
   position: relative;
-  width: 15rem;
-  height: 20rem;
-  flex-shrink: 1;
-  flex-grow: 0;
+  width: 18rem;
+  height: 25rem;
   background-color: antiquewhite;
 
   &__top-border {
@@ -42,15 +40,17 @@
   }
 
   &-header {
-    display: flex;
     position: absolute;
-    justify-content: center;
     font-weight: 900;
     top: 100%;
     bottom: 0;
     left: 0;
     right: 0;
     margin-block-start: 2rem;
+
+    & mat-card-header {
+      justify-content: center;
+    }
   }
 }
 
@@ -65,25 +65,16 @@
 }
 
 .mat-card {
-  & > .mat-card-actions:last-child {
-    margin-bottom: 1rem;
-    padding-bottom: 0;
+  & > .mat-card-actions {
+    padding: 1rem;
   }
 }
 
-::ng-deep {
-  .mat-dialog-container {
-    background-color: antiquewhite;
-  }
-}
-
-.card-actions {
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.car-details {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  align-items: baseline;
+  justify-items: center;
 }
 
 .carousel__button-container {
@@ -107,5 +98,20 @@
     font-size: 3rem;
     width: 3rem;
     height: 3rem;
+  }
+}
+
+.card-action-buttons {
+  display: flex;
+  gap: 1rem;
+
+  & button {
+    flex-grow: 1;
+  }
+}
+
+::ng-deep {
+  .mat-dialog-container {
+    background-color: antiquewhite;
   }
 }

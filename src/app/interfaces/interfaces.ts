@@ -15,6 +15,10 @@ export interface Car {
   dailyRate: number;
 }
 
+export interface AvailableCarFullModel extends Car {
+  numberOfCars: number;
+}
+
 export interface Booking {
   id: string;
   startDate: string;
