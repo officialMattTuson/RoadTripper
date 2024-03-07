@@ -29,8 +29,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AvailabilityPopupComponent } from './components/availability-popup/availability-popup.component';
-import { BookingRequestComponent } from './booking-request/booking-request.component';
-import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
+import { BookingConfirmationComponent } from './pages/bookings/booking-confirmation/booking-confirmation.component';
+import { BookingRequestComponent } from './pages/bookings/booking-request/booking-request.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +81,7 @@ import { BookingConfirmationComponent } from './booking-confirmation/booking-con
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
