@@ -44,6 +44,7 @@ export class AvailabilityPopupComponent implements OnInit {
             }
           });
         });
+        console.log(this.availableCars)
       },
     });
   }

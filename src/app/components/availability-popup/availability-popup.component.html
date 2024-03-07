@@ -17,13 +17,30 @@
             >
           </mat-card-header>
           <section class="car-details">
-            <mat-card-subtitle
-              >{{ car.numberOfCars }} cars remaining</mat-card-subtitle
-            >
-            <mat-card-subtitle>{{ car.fuelClass }}</mat-card-subtitle>
-            <mat-card-subtitle>{{ car.transmission }}</mat-card-subtitle>
-            <mat-card-subtitle>{{ car.doors }} doors</mat-card-subtitle>
-            <mat-card-subtitle>${{ car.dailyRate }}</mat-card-subtitle>
+            <mat-card-subtitle class="icon-subtitle-pair">
+              <mat-icon color="primary">directions_car</mat-icon>
+              {{ car.numberOfCars }} cars remaining
+            </mat-card-subtitle>
+            <mat-card-subtitle class="icon-subtitle-pair">
+              <mat-icon color="primary">{{ car.fuelClass === 'Electric' ? 'ev_station' : 'local_gas_station'}}</mat-icon>
+              {{ car.fuelClass }}
+            </mat-card-subtitle>
+            <mat-card-subtitle class="icon-subtitle-pair">
+              <mat-icon color="primary">settings_input_component</mat-icon>
+              {{ car.transmission }}
+            </mat-card-subtitle>
+            <mat-card-subtitle class="icon-subtitle-pair">
+              <mat-icon color="primary">window_open</mat-icon>
+              {{ car.doors }} doors
+            </mat-card-subtitle>
+            <mat-card-subtitle class="icon-subtitle-pair">
+              <mat-icon color="primary">attractions</mat-icon>
+              {{ car.experience }}
+            </mat-card-subtitle>
+            <mat-card-subtitle class="icon-subtitle-pair">
+              <mat-icon color="primary">paid</mat-icon>
+              ${{ car.dailyRate }}
+            </mat-card-subtitle>
           </section>
         </header>
       </div>
@@ -36,8 +53,10 @@
       (click)="prevCar()"
       matTooltip="Previous car"
       matTooltipPosition="above"
+      [disabled]="availableCars.length < 2"
+      [matTooltipDisabled]="availableCars.length < 2"
     >
-      <mat-icon color="primary">chevron_left</mat-icon>
+      <mat-icon [ngClass]="{'disabled-icon': availableCars.length < 2}" color="primary">chevron_left</mat-icon>
     </button>
     <button
       class="carousel__button"
@@ -45,8 +64,10 @@
       (click)="nextCar()"
       matTooltip="Next car"
       matTooltipPosition="above"
+      [disabled]="availableCars.length < 2"
+      [matTooltipDisabled]="availableCars.length < 2"
     >
-      <mat-icon color="primary">chevron_right</mat-icon>
+      <mat-icon [ngClass]="{'disabled-icon': availableCars.length < 2}" color="primary">chevron_right</mat-icon>
     </button>
   </div>
   <div class="card-action-buttons">
