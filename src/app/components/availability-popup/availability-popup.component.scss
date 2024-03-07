@@ -112,6 +112,16 @@
   }
 }
 
+#booking-button {
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+}
+
+#booking-button:hover {
+  background-color: orange;
+}
+
 .icon-subtitle-pair {
   display: flex;
   justify-content: center;
@@ -123,6 +133,8 @@
   opacity: 0.5; 
   cursor: auto;
 }
+
+
 
 ::ng-deep {
   .mat-dialog-container {
