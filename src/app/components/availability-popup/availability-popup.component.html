@@ -22,7 +22,11 @@
               {{ car.numberOfCars }} cars remaining
             </mat-card-subtitle>
             <mat-card-subtitle class="icon-subtitle-pair">
-              <mat-icon color="primary">{{ car.fuelClass === 'Electric' ? 'ev_station' : 'local_gas_station'}}</mat-icon>
+              <mat-icon color="primary">{{
+                car.fuelClass === "Electric"
+                  ? "ev_station"
+                  : "local_gas_station"
+              }}</mat-icon>
               {{ car.fuelClass }}
             </mat-card-subtitle>
             <mat-card-subtitle class="icon-subtitle-pair">
@@ -56,7 +60,11 @@
       [disabled]="availableCars.length < 2"
       [matTooltipDisabled]="availableCars.length < 2"
     >
-      <mat-icon [ngClass]="{'disabled-icon': availableCars.length < 2}" color="primary">chevron_left</mat-icon>
+      <mat-icon
+        [ngClass]="{ 'disabled-icon': availableCars.length < 2 }"
+        color="primary"
+        >chevron_left</mat-icon
+      >
     </button>
     <button
       class="carousel__button"
@@ -67,11 +75,19 @@
       [disabled]="availableCars.length < 2"
       [matTooltipDisabled]="availableCars.length < 2"
     >
-      <mat-icon [ngClass]="{'disabled-icon': availableCars.length < 2}" color="primary">chevron_right</mat-icon>
+      <mat-icon
+        [ngClass]="{ 'disabled-icon': availableCars.length < 2 }"
+        color="primary"
+        >chevron_right</mat-icon
+      >
     </button>
   </div>
   <div class="card-action-buttons">
-    <button mat-raised-button id="booking-button">
+    <button
+      mat-raised-button
+      id="booking-button"
+      (click)="onsubmitBookingRequest()"
+    >
       <mat-icon class="lodge-icon">bed</mat-icon>
       Book Now
     </button>

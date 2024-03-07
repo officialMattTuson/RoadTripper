@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { combineLatest, map, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { AvailabilityPopupComponent } from 'src/app/components/availability-popup/availability-popup.component';
-import { Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
+import { BookingRequestCarAndLocation, Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -140,8 +140,14 @@ export class LocationsComponent implements OnInit {
     const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
       data: location,
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((result: BookingRequestCarAndLocation) => {
+      if (!result) {
+        return;
+      }
+      
+      console.log(result);
+      
+
     });
   }
 }

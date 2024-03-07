@@ -27,6 +27,11 @@ export interface Booking {
   location: string;
 }
 
+export interface BookingRequestCarAndLocation {
+  selectedCar: AvailableCarFullModel;
+  selectedLocation: Location;
+}
+
 export interface Location {
   id: number;
   name: string;

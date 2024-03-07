@@ -2,9 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { take } from 'rxjs';
 import {
-  AvailableCar,
   AvailableCarFullModel,
-  Car,
+  BookingRequestCarAndLocation,
   Location,
 } from 'src/app/interfaces/interfaces';
 import { CarsService } from 'src/app/services/cars-service';
@@ -44,7 +43,6 @@ export class AvailabilityPopupComponent implements OnInit {
             }
           });
         });
-        console.log(this.availableCars)
       },
     });
   }
@@ -65,7 +63,18 @@ export class AvailabilityPopupComponent implements OnInit {
     }
   }
 
-  closePopup(): void {
-    this.dialogRef.close();
+  onsubmitBookingRequest() {
+    const bookingRequest: BookingRequestCarAndLocation = {
+      selectedCar: this.availableCars[this.currentIndex],
+      selectedLocation: this.selectedLocation,
+    };
+    this.closePopup(bookingRequest);
+  }
+
+  closePopup(bookingRequest?: BookingRequestCarAndLocation): void {
+    if (!bookingRequest) {
+      return this.dialogRef.close();
+    }
+    this.dialogRef.close(bookingRequest);
   }
 }
