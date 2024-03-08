@@ -6,7 +6,7 @@ import {
   BookingRequestCarAndLocation,
   Location,
 } from 'src/app/interfaces/interfaces';
-import { CarsService } from 'src/app/services/cars-service';
+import { CarsService } from 'src/app/services/cars.service';
 
 @Component({
   selector: 'app-availability-popup',

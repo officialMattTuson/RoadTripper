@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { combineLatest, map, take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { AvailabilityPopupComponent } from 'src/app/components/availability-popup/availability-popup.component';
-import { BookingRequestCarAndLocation, Location, SelectButtonOption } from 'src/app/interfaces/interfaces';
+import {
+  BookingRequestCarAndLocation,
+  Location,
+  SelectButtonOption,
+} from 'src/app/interfaces/interfaces';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -28,7 +33,8 @@ export class LocationsComponent implements OnInit {
   constructor(
     private readonly urlService: UrlService,
     private readonly appService: AppService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +84,9 @@ export class LocationsComponent implements OnInit {
       }
     });
     this.currentSearchFilters.push('New Zealand');
-    this.locationsSelected = this.sortLocationsByCountry(this.currentSearchFilters);
+    this.locationsSelected = this.sortLocationsByCountry(
+      this.currentSearchFilters
+    );
   }
 
   sortLocationsByCountry(selectedCountries: string[]): Location[] {
@@ -140,14 +148,13 @@ export class LocationsComponent implements OnInit {
     const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
       data: location,
     });
-    dialogRef.afterClosed().subscribe((result: BookingRequestCarAndLocation) => {
-      if (!result) {
-        return;
-      }
-      
-      console.log(result);
-      
-
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: BookingRequestCarAndLocation) => {
+        if (!result) {
+          return;
+        }
+        this.router.navigateByUrl('booking');
+      });
   }
 }

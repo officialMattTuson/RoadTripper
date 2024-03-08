@@ -4,7 +4,7 @@ import { UrlService } from './services/url.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { AppService } from './app.service';
-import { CarsService } from './services/cars-service';
+import { CarsService } from './services/cars.service';
 
 @Component({
   selector: 'app-root',
