@@ -43,25 +43,25 @@ export class CarHireComponent implements OnInit {
     });
   }
 
-  getPreviousUrl() {
+  getPreviousUrl(): void {
     this.urlService.previousUrl$.subscribe((previousUrl) => {
       this.previousUrlString = previousUrl;
     });
   }
 
-  setBackButtonTitle() {
+  setBackButtonTitle(): void {
     this.previousUrlString?.includes('locations')
       ? (this.backButtonTitle = 'Locations')
       : (this.backButtonTitle = 'Return Home');
   }
 
-  onBackNavigation() {
+  onBackNavigation(): void {
     this.backButtonTitle === 'Locations'
       ? this.router.navigateByUrl('locations')
       : this.router.navigateByUrl('home');
   }
 
-  onFilterChange(selectedFilters: string[]) {
+  onFilterChange(selectedFilters: string[]): void {
     this.currentSearchFilters = selectedFilters;
     const fuelTypeCount = selectedFilters.length;
 
@@ -77,7 +77,7 @@ export class CarHireComponent implements OnInit {
     this.sortCarsByFuelType(selectedFilters);
   }
 
-  getCarDetails() {
+  getCarDetails(): void {
     this.carsService.carDetails$.pipe(take(1)).subscribe({
       next: (carDetails) => {
         this.carDetails = carDetails;
@@ -87,16 +87,16 @@ export class CarHireComponent implements OnInit {
     });
   }
 
-  getCarsByFuelType(carDetails: Car[]) {
+  getCarsByFuelType(carDetails: Car[]): void {
     const carListingsByFuelClass = new Set(
       carDetails.map((car) => car.fuelClass)
     );
     this.carFuelTypes = Array.from(carListingsByFuelClass) as string[];
-    this.setFilteredCars(carDetails);
+    this.carsMatchingCriteria = this.setFilteredCars(carDetails);
     this.initializeFilter(this.carFuelTypes);
   }
 
-  initializeFilter(fuelClasses: string[]) {
+  initializeFilter(fuelClasses: string[]): void {
     this.filteredCarList = fuelClasses.map((fuelClass) => {
       return {
         label: fuelClass,
@@ -106,16 +106,17 @@ export class CarHireComponent implements OnInit {
     });
   }
 
-  setFilteredCars(carDetails: Car[]) {
+  setFilteredCars(carDetails: Car[]): Car[] {
+    let matchingCars: Car[] = [];
     carDetails.map((car) => {
       if (car.fuelClass === 'Electric') {
-        this.carsMatchingCriteria.push(car);
+        matchingCars.push(car);
       }
     });
-    return this.carsMatchingCriteria;
+    return matchingCars;
   }
 
-  onSearchedTerm(searchTerm: string) {
+  onSearchedTerm(searchTerm: string): void {
     this.searchedCars = [];
     this.appService
       .searchCarByMakeOrModel(searchTerm)
@@ -128,12 +129,12 @@ export class CarHireComponent implements OnInit {
       });
   }
 
-  onResetSearchFilter() {
+  onResetSearchFilter(): void {
     this.searchedCars = [];
     this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
   }
 
-  combineFilterAndSearchList(filteredCars: Car[], searchedCars: Car[]) {
+  combineFilterAndSearchList(filteredCars: Car[], searchedCars: Car[]): void {
     switch (true) {
       case searchedCars.length === 0 && filteredCars.length === 0:
         this.carsMatchingCriteria = [];
@@ -182,7 +183,7 @@ export class CarHireComponent implements OnInit {
     return uniqueList;
   }
 
-  sortCarsByFuelType(selectedFuelTypes: string[]) {
+  sortCarsByFuelType(selectedFuelTypes: string[]): void {
     if (selectedFuelTypes.length === 0) {
       selectedFuelTypes = this.carFuelTypes;
     }

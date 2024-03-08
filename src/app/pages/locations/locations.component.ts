@@ -37,13 +37,13 @@ export class LocationsComponent implements OnInit {
     this.getCategoryNames();
   }
 
-  getPreviousUrl() {
+  getPreviousUrl(): void {
     this.urlService.previousUrl$.pipe(take(1)).subscribe((previousUrl) => {
       this.previousUrlString = previousUrl;
     });
   }
 
-  getLocations() {
+  getLocations(): void {
     combineLatest([this.locations$, this.categories$])
       .pipe(
         take(1),
@@ -71,25 +71,25 @@ export class LocationsComponent implements OnInit {
     this.countriesSettled = this.setCountryFilter(countriesListArray);
   }
 
-  setInitialFilteredLocations(locations: Location[]) {
+  setInitialFilteredLocations(locations: Location[]): void {
     locations.forEach((location) => {
       if (location.country === 'New Zealand') {
         this.locationsSelected.push(location);
       }
     });
     this.currentSearchFilters.push('New Zealand');
-    this.sortLocationsByCountry(this.currentSearchFilters);
+    this.locationsSelected = this.sortLocationsByCountry(this.currentSearchFilters);
   }
 
-  sortLocationsByCountry(selectedCountries: string[]) {
-    this.locationsSelected = [];
+  sortLocationsByCountry(selectedCountries: string[]): Location[] {
+    const locationsSelected: Location[] = [];
     this.locationsList.map((location) => {
       if (selectedCountries.indexOf(location.country) > -1) {
-        this.locationsSelected.push(location);
+        locationsSelected.push(location);
       }
     });
     this.currentSearchFilters = selectedCountries;
-    return this.locationsSelected;
+    return locationsSelected;
   }
 
   setCountryFilter(countries: string[]): SelectButtonOption[] {
@@ -103,17 +103,17 @@ export class LocationsComponent implements OnInit {
     return countriesSelected;
   }
 
-  showLocationsComingSoon() {
-    this.locationsSelected = [];
+  showLocationsComingSoon(): Location[] {
+    const locationsSelected: Location[] = [];
     this.locationsList.map((location) => {
       if (!location.isFinalized) {
-        this.locationsSelected.push(location);
+        locationsSelected.push(location);
       }
     });
-    return this.locationsSelected;
+    return locationsSelected;
   }
 
-  getCategoryNames() {
+  getCategoryNames(): void {
     this.categories$
       .pipe(
         take(1),
@@ -127,16 +127,16 @@ export class LocationsComponent implements OnInit {
       });
   }
 
-  onFilterChange(selectedFilters: string[]) {
+  onFilterChange(selectedFilters: string[]): void {
     this.currentSearchFilters = selectedFilters;
     if (selectedFilters.length === 0) {
-      this.showLocationsComingSoon();
+      this.locationsSelected = this.showLocationsComingSoon();
       return;
     }
-    this.sortLocationsByCountry(selectedFilters);
+    this.locationsSelected = this.sortLocationsByCountry(selectedFilters);
   }
 
-  openAvailabilityPopup(location: Location) {
+  openAvailabilityPopup(location: Location): void {
     const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
       data: location,
     });

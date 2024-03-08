@@ -42,7 +42,7 @@ export class FilterBlockComponent {
     this.observeSearchField();
   }
 
-  onChange(option: SelectButtonOption) {
+  onChange(option: SelectButtonOption): void {
     if (option.checked) {
       this.selectedOptions = [...this.selectedOptions, option];
     } else {
@@ -52,7 +52,7 @@ export class FilterBlockComponent {
     this.emitSelectedValues(this.selectedOptions);
   }
 
-  observeSearchField() {
+  observeSearchField(): void {
     this.searchTermControl.valueChanges.pipe(takeUntil(this.destroy$))
     .subscribe(value => {
       if (value) {
@@ -61,13 +61,13 @@ export class FilterBlockComponent {
     })
   }
 
-  reset() {
+  reset(): void {
     this.searchTermControl.reset();
     this.showSearchButton = false;
     this.clearEvent.emit(this.searchTermControl.value);
   }
 
-  onAllChecked(event: MatCheckboxChange) {
+  onAllChecked(event: MatCheckboxChange): void {
     this.allChecked = event.checked;
     this.options.forEach((option) => {
       option.checked = this.allChecked;
@@ -76,7 +76,7 @@ export class FilterBlockComponent {
     this.emitSelectedValues(this.selectedOptions);
   }
 
-  emitSelectedValues(selectedOptions: SelectButtonOption[]) {
+  emitSelectedValues(selectedOptions: SelectButtonOption[]): void {
     const values = selectedOptions.map((option) => option.value);
     this.selectedValue.emit(values);
   }

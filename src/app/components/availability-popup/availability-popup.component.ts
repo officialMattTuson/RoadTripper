@@ -29,7 +29,7 @@ export class AvailabilityPopupComponent implements OnInit {
     this.getCarDetails();
   }
 
-  getCarDetails() {
+  getCarDetails(): void {
     this.carsService.carDetails$.pipe(take(1)).subscribe({
       next: (cars) => {
         cars.map((car) => {
@@ -63,7 +63,7 @@ export class AvailabilityPopupComponent implements OnInit {
     }
   }
 
-  onsubmitBookingRequest() {
+  onsubmitBookingRequest(): void {
     const bookingRequest: BookingRequestCarAndLocation = {
       selectedCar: this.availableCars[this.currentIndex],
       selectedLocation: this.selectedLocation,
