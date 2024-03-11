@@ -9,10 +9,12 @@
         <mat-card-subtitle>{{ car.year }} {{ car.model }}</mat-card-subtitle>
       </mat-card-header>
       <section class="car-details">
-        <!-- <mat-card-subtitle *ngIf="car.numberOfCars" class="icon-subtitle-pair">
-          <mat-icon color="primary">directions_car</mat-icon>
-          {{ car.numberOfCars }} cars remaining
-        </mat-card-subtitle> -->
+        <ng-container *ngIf="!hasExecuted && isAvailableCarFullModel(car)">
+          <mat-card-subtitle class="icon-subtitle-pair">
+            <mat-icon color="primary">directions_car</mat-icon>
+            {{ car.numberOfCars }} {{ car.numberOfCars === 1 ? 'car' : 'cars' }} remaining
+          </mat-card-subtitle>
+        </ng-container>
         <mat-card-subtitle class="icon-subtitle-pair">
           <mat-icon color="primary">{{
             car.fuelClass === "Electric" ? "ev_station" : "local_gas_station"
