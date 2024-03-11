@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseCardComponent } from '../base-card/base-card.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { AvailableCarFullModel, Car } from '../interfaces/interfaces';
   templateUrl: './car-card.component.html',
   styleUrls: ['./car-card.component.scss'],
 })
-export class CarCardComponent extends BaseCardComponent implements OnInit {
+export class CarCardComponent extends BaseCardComponent {
   @Input() car!: Car | AvailableCarFullModel;
   @Input() showHideCarouselCarClass!: object;
 
@@ -23,8 +23,6 @@ export class CarCardComponent extends BaseCardComponent implements OnInit {
   ) {
     super(bookingsService, dialog, router);
   }
-
-  override ngOnInit(): void {}
 
   isAvailableCarFullModel(
     car: Car | AvailableCarFullModel

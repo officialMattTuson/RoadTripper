@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AvailabilityPopupComponent } from '../components/availability-popup/availability-popup.component';
 import { BookingRequestCarAndLocation, Location } from '../interfaces/interfaces';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,14 +9,12 @@ import { Router } from '@angular/router';
   selector: 'app-base-card',
   template: '',
 })
-export class BaseCardComponent implements OnInit {
+export class BaseCardComponent {
   constructor(
     protected readonly bookingsService: BookingsService,
     protected readonly dialog: MatDialog,
     protected readonly router: Router
   ) {}
-
-  ngOnInit(): void {}
 
   openAvailabilityPopup(location: Location): void {
     const dialogRef = this.dialog.open(AvailabilityPopupComponent, {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BaseCardComponent } from 'src/app/base-card/base-card.component';
@@ -10,7 +10,7 @@ import { BookingsService } from 'src/app/services/bookings.service';
   templateUrl: './location-card.component.html',
   styleUrls: ['./location-card.component.scss'],
 })
-export class LocationCardComponent extends BaseCardComponent implements OnInit {
+export class LocationCardComponent extends BaseCardComponent {
   @Input() location!: Location;
 
   constructor(
@@ -20,6 +20,4 @@ export class LocationCardComponent extends BaseCardComponent implements OnInit {
   ) {
     super(bookingsService, dialog, router);
   }
-
-  override ngOnInit(): void {}
 }
