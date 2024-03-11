@@ -1,1 +1,42 @@
-<p>car-card works!</p>
+<mat-card class="car" [ngClass]="showHideCarouselCarClass">
+  <div class="car__top-border">
+    <img class="car__image" src="{{ car.image }}" alt="car" />
+    <header class="car-header">
+      <mat-card-header>
+        <mat-card-title class="car-header__title">{{
+          car.make
+        }}</mat-card-title>
+        <mat-card-subtitle>{{ car.year }} {{ car.model }}</mat-card-subtitle>
+      </mat-card-header>
+      <section class="car-details">
+        <!-- <mat-card-subtitle *ngIf="car.numberOfCars" class="icon-subtitle-pair">
+          <mat-icon color="primary">directions_car</mat-icon>
+          {{ car.numberOfCars }} cars remaining
+        </mat-card-subtitle> -->
+        <mat-card-subtitle class="icon-subtitle-pair">
+          <mat-icon color="primary">{{
+            car.fuelClass === "Electric" ? "ev_station" : "local_gas_station"
+          }}</mat-icon>
+          {{ car.fuelClass }}
+        </mat-card-subtitle>
+        <mat-card-subtitle class="icon-subtitle-pair">
+          <mat-icon color="primary">settings_input_component</mat-icon>
+          {{ car.transmission }}
+        </mat-card-subtitle>
+        <mat-card-subtitle class="icon-subtitle-pair">
+          <mat-icon color="primary">window_open</mat-icon>
+          {{ car.doors }} doors
+        </mat-card-subtitle>
+        <mat-card-subtitle class="icon-subtitle-pair">
+          <mat-icon color="primary">attractions</mat-icon>
+          {{ car.experience }}
+        </mat-card-subtitle>
+        <mat-card-subtitle class="icon-subtitle-pair">
+          <mat-icon color="primary">paid</mat-icon>
+          ${{ car.dailyRate }}
+        </mat-card-subtitle>
+      </section>
+    </header>
+  </div>
+  <ng-content select="[footer]"></ng-content>
+</mat-card>
