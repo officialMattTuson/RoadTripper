@@ -1,0 +1,90 @@
+.image {
+  height: 14rem;
+}
+
+#coming-soon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(220, 154, 20);
+  font-weight: bold;
+  font-size: 2rem;
+  padding: 1rem;
+  text-align: center;
+  color: aliceblue;
+}
+
+.location,
+.location-disabled {
+  border: 3px solid black;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  position: relative;
+  max-width: 20rem;
+  flex-shrink: 1;
+  flex-grow: 0;
+}
+
+.location-disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-content {
+  position: relative;
+  white-space: pre-wrap;
+}
+
+.location-header {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.view-button,
+.lodge-button {
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+}
+
+.view-button:hover {
+  background-color: orange;
+}
+
+.city-icon {
+  font-size: 3rem;
+}
+
+.hero-icon,
+.lodge-icon {
+  width: 2rem;
+  height: 2rem;
+  font-size: 2rem;
+}
+
+@media (max-width: 1000px) {
+  .location {
+    max-width: 20rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .location,
+  .location-disabled {
+    max-width: 20rem;
+  }
+
+  .location_card-wrap {
+    justify-content: center;
+  }
+}

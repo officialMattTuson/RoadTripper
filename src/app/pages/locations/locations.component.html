@@ -30,42 +30,7 @@
 </div>
 
 <div class="location_card-wrap" *ngIf="locationsList">
-  <mat-card *ngFor="let location of locationsSelected" 
-    class="location" 
-    [ngClass]="{'location-disabled': !location.isFinalized}">
-    <img mat-card-image 
-      class="image" 
-      src="{{location.image}}" 
-      alt="{{location.name}}"
-    />
-    <h2 *ngIf="!location.isFinalized" 
-      id="coming-soon">
-      Coming Soon
-    </h2>
-    <mat-card-header class="location-header">
-      <mat-card-title>{{location.name}}</mat-card-title>
-      <mat-card-subtitle>{{location.area}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content class="card-content">
-        {{location.brief}}
-    </mat-card-content>
-    <mat-card-actions class="card-actions">
-      <button 
-        mat-raised-button 
-        class="view-button"
-        (click)="openAvailabilityPopup(location)"
-      >
-        <mat-icon class="view-icon">location_on</mat-icon>
-        View Available cars
-      </button>
-      <button 
-        disabled
-        matTooltip="Feature Coming Soon" 
-        [matTooltipDisabled]="false"
-        mat-raised-button class="lodge-button">
-        <mat-icon class="lodge-icon">bed</mat-icon>
-        Lodging
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <ng-container *ngFor="let location of locationsSelected">
+    <app-location-card [location]="location"></app-location-card>
+  </ng-container>
 </div>

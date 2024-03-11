@@ -1,15 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { AvailabilityPopupComponent } from '../components/availability-popup/availability-popup.component';
+import { BookingRequestCarAndLocation, Location } from '../interfaces/interfaces';
+import { MatDialog } from '@angular/material/dialog';
+import { BookingsService } from '../services/bookings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-base-card',
-  templateUrl: './base-card.component.html',
-  styleUrls: ['./base-card.component.scss']
+  template: '',
 })
 export class BaseCardComponent implements OnInit {
+  constructor(
+    protected readonly bookingsService: BookingsService,
+    protected readonly dialog: MatDialog,
+    protected readonly router: Router
+  ) {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  openAvailabilityPopup(location: Location): void {
+    const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
+      data: location,
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: BookingRequestCarAndLocation) => {
+        if (!result) {
+          return;
+        }
+        this.bookingsService.setBookingRequest(result);
+        this.router.navigateByUrl('booking');
+      });
   }
-
 }
