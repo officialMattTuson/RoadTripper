@@ -31,6 +31,9 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { AvailabilityPopupComponent } from './components/availability-popup/availability-popup.component';
 import { BookingConfirmationComponent } from './pages/bookings/booking-confirmation/booking-confirmation.component';
 import { BookingRequestComponent } from './pages/bookings/booking-request/booking-request.component';
+import { LocationCardComponent } from './components/location-card/location-card.component';
+import { CarCardComponent } from './car-card/car-card.component';
+import { BaseCardComponent } from './base-card/base-card.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { BookingRequestComponent } from './pages/bookings/booking-request/bookin
     AvailabilityPopupComponent,
     BookingRequestComponent,
     BookingConfirmationComponent,
+    LocationCardComponent,
+    CarCardComponent,
+    BaseCardComponent,
   ],
   imports: [
     BrowserModule,
