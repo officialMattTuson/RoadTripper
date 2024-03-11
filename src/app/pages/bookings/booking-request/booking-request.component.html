@@ -1,1 +1,4 @@
-<p>booking-request works!</p>
+<div *ngIf="bookingRequest">
+    <h1>{{bookingRequest?.selectedLocation?.name}}</h1>
+    <h1>{{bookingRequest?.selectedCar?.make}}</h1>
+</div>

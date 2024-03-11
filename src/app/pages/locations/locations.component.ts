@@ -9,6 +9,7 @@ import {
   Location,
   SelectButtonOption,
 } from 'src/app/interfaces/interfaces';
+import { BookingsService } from 'src/app/services/bookings.service';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -33,6 +34,7 @@ export class LocationsComponent implements OnInit {
   constructor(
     private readonly urlService: UrlService,
     private readonly appService: AppService,
+    private readonly bookingsService: BookingsService,
     private readonly dialog: MatDialog,
     private readonly router: Router
   ) {}
@@ -154,6 +156,7 @@ export class LocationsComponent implements OnInit {
         if (!result) {
           return;
         }
+        this.bookingsService.setBookingRequest(result);
         this.router.navigateByUrl('booking');
       });
   }
