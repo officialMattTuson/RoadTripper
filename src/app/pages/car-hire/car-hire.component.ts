@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { Car, SelectButtonOption } from 'src/app/interfaces/interfaces';
+import { AvailabilityPopupComponent } from 'src/app/components/availability-popup/availability-popup.component';
+import {
+  BookingRequestCarAndLocation,
+  Car,
+  SelectButtonOption,
+} from 'src/app/interfaces/interfaces';
+import { BookingsService } from 'src/app/services/bookings.service';
 import { CarsService } from 'src/app/services/cars.service';
 import { UrlService } from 'src/app/services/url.service';
 
@@ -30,8 +37,10 @@ export class CarHireComponent implements OnInit {
     private readonly urlService: UrlService,
     private readonly router: Router,
     private readonly appService: AppService,
+    private readonly bookingsService: BookingsService,
     private readonly carsService: CarsService,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -198,5 +207,20 @@ export class CarHireComponent implements OnInit {
     });
     this.currentSearchFilters = selectedFuelTypes;
     this.combineFilterAndSearchList(this.filteredCars, this.searchedCars);
+  }
+
+  openLocationsPopup(car: Car): void {
+    const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
+      data: car,
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: BookingRequestCarAndLocation) => {
+        if (!result) {
+          return;
+        }
+        this.bookingsService.setBookingRequest(result);
+        this.router.navigateByUrl('booking');
+      });
   }
 }

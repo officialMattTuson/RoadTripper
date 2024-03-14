@@ -6,34 +6,33 @@
   position: relative;
 }
 
-.car-carousel {
-  overflow: hidden; 
-  position: relative; 
-}
-
-.carousel__button-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.carousel__button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 4rem;
-  height: 4rem;
-  cursor: pointer;
-  font-size: 1.5rem;
-  font-weight: 900;
-
-  & mat-icon {
+.carousel {
+  overflow: hidden;
+  position: relative;
+  &__button-container {
     display: flex;
+    justify-content: space-between;
+  }
+  &__button {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    font-size: 3rem;
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: 900;
+  
+    & mat-icon {
+      display: flex;
+      align-items: center;
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+    }
   }
 }
+
 
 .card-action-buttons {
   display: flex;
@@ -59,11 +58,6 @@
   justify-content: center;
   align-items: end;
   gap: 1rem;
-}
-
-.disabled-icon {
-  opacity: 0.5; 
-  cursor: auto;
 }
 
 ::ng-deep {

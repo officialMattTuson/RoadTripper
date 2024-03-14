@@ -47,7 +47,7 @@
 
   &-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     position: absolute;
     bottom: 4%;
     left: 0;
@@ -56,8 +56,7 @@
   }
 }
 
-.view-button,
-.lodge-button {
+.view-button {
   background-color: black;
   color: white;
   font-size: 1rem;

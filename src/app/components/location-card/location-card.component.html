@@ -1,6 +1,10 @@
 <mat-card
   class="location"
-  [ngClass]="{ 'location-disabled': !location.isFinalized }"
+  [ngClass]="
+    showHideCarouselLocationClass
+      ? showHideCarouselLocationClass
+      : { 'location-disabled': !location.isFinalized }
+  "
 >
   <img
     mat-card-image
@@ -16,24 +20,5 @@
   <mat-card-content class="card-content">
     {{ location.brief }}
   </mat-card-content>
-  <mat-card-actions class="card-actions">
-    <button
-      mat-raised-button
-      class="view-button"
-      (click)="openAvailabilityPopup(location)"
-    >
-      <mat-icon class="view-icon">location_on</mat-icon>
-      View Available cars
-    </button>
-    <button
-      disabled
-      matTooltip="Feature Coming Soon"
-      [matTooltipDisabled]="false"
-      mat-raised-button
-      class="lodge-button"
-    >
-      <mat-icon class="lodge-icon">bed</mat-icon>
-      Lodging
-    </button>
-  </mat-card-actions>
+  <ng-content select="[footer]"></ng-content>
 </mat-card>

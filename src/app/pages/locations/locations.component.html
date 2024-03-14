@@ -31,6 +31,27 @@
 
 <div class="location_card-wrap" *ngIf="locationsList">
   <ng-container *ngFor="let location of locationsSelected">
-    <app-location-card [location]="location"></app-location-card>
+    <app-location-card [location]="location">
+      <mat-card-actions footer class="card-actions">
+        <button
+          mat-raised-button
+          class="view-button"
+          (click)="openAvailabilityPopup(location)"
+        >
+          <mat-icon class="view-icon">location_on</mat-icon>
+          Available Cars
+        </button>
+        <button
+          disabled
+          matTooltip="Feature Coming Soon"
+          [matTooltipDisabled]="false"
+          mat-raised-button
+          class="lodge-button"
+        >
+          <mat-icon class="lodge-icon">bed</mat-icon>
+          Lodging
+        </button>
+      </mat-card-actions>
+    </app-location-card>
   </ng-container>
 </div>

@@ -26,20 +26,12 @@
         <app-car-card [car]="car">
           <mat-card-actions footer class="card-actions">
             <button 
+              (click)="openLocationsPopup(car)"
               mat-raised-button 
               class="view-button"
-              routerLink="/locations"
             >
               <mat-icon class="view-icon">location_on</mat-icon>
-              Locations
-            </button>
-            <button
-              disabled 
-              mat-raised-button 
-              class="lodge-button"
-            >
-              <mat-icon class="lodge-icon">bed</mat-icon>
-              Book Now
+              View Available Locations
             </button>
           </mat-card-actions>
         </app-car-card>

@@ -24,19 +24,23 @@
   border-radius: 0.5rem;
   padding: 1rem;
   position: relative;
+  height: 32rem;
   max-width: 20rem;
   flex-shrink: 1;
   flex-grow: 0;
 }
 
+.location.active {
+  display: block; 
+}
+
+.location.hidden {
+  display: none;
+}
+
 .location-disabled {
   opacity: 0.3;
   pointer-events: none;
-}
-
-.card-actions {
-  display: flex;
-  justify-content: space-between;
 }
 
 .card-content {
@@ -48,17 +52,6 @@
   text-align: center;
   display: flex;
   justify-content: center;
-}
-
-.view-button,
-.lodge-button {
-  background-color: black;
-  color: white;
-  font-size: 1rem;
-}
-
-.view-button:hover {
-  background-color: orange;
 }
 
 .city-icon {

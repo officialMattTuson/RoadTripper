@@ -4,6 +4,7 @@ import { UrlService } from './services/url.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { CarsService } from './services/cars.service';
+import { LocationsService } from './services/locations.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly carsService: CarsService,
+    private readonly locationsService: LocationsService,
     private readonly urlService: UrlService
   ) {
     this.router.events
@@ -40,6 +42,9 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.carsService.getCarDetails().subscribe((carDetails) => {
       this.carsService.setCarDetails(carDetails);
+    });
+    this.locationsService.getLocations().subscribe((locations) => {
+      this.locationsService.setLocations(locations);
     });
   }
 

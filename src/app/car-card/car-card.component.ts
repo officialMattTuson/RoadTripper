@@ -1,8 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { BaseCardComponent } from '../base-card/base-card.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { BookingsService } from '../services/bookings.service';
 import { AvailableCarFullModel, Car } from '../interfaces/interfaces';
 
 @Component({
@@ -10,19 +6,11 @@ import { AvailableCarFullModel, Car } from '../interfaces/interfaces';
   templateUrl: './car-card.component.html',
   styleUrls: ['./car-card.component.scss'],
 })
-export class CarCardComponent extends BaseCardComponent {
+export class CarCardComponent {
   @Input() car!: Car | AvailableCarFullModel;
   @Input() showHideCarouselCarClass!: object;
 
   hasExecuted: boolean = false;
-
-  constructor(
-    protected override readonly bookingsService: BookingsService,
-    protected override readonly dialog: MatDialog,
-    protected override readonly router: Router
-  ) {
-    super(bookingsService, dialog, router);
-  }
 
   isAvailableCarFullModel(
     car: Car | AvailableCarFullModel

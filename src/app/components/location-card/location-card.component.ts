@@ -1,23 +1,38 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { BaseCardComponent } from 'src/app/base-card/base-card.component';
-import { Location } from 'src/app/interfaces/interfaces';
+import { BookingRequestCarAndLocation, Location } from 'src/app/interfaces/interfaces';
 import { BookingsService } from 'src/app/services/bookings.service';
+import { AvailabilityPopupComponent } from '../availability-popup/availability-popup.component';
 
 @Component({
   selector: 'app-location-card',
   templateUrl: './location-card.component.html',
   styleUrls: ['./location-card.component.scss'],
 })
-export class LocationCardComponent extends BaseCardComponent {
+export class LocationCardComponent {
   @Input() location!: Location;
+  @Input() showHideCarouselLocationClass!: object;
 
   constructor(
-    protected override readonly bookingsService: BookingsService,
-    protected override readonly dialog: MatDialog,
-    protected override readonly router: Router
+    private readonly bookingsService: BookingsService,
+    private readonly dialog: MatDialog,
+    private readonly router: Router
   ) {
-    super(bookingsService, dialog, router);
+  }
+
+  openAvailabilityPopup(location: Location): void {
+    const dialogRef = this.dialog.open(AvailabilityPopupComponent, {
+      data: location,
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: BookingRequestCarAndLocation) => {
+        if (!result) {
+          return;
+        }
+        this.bookingsService.setBookingRequest(result);
+        this.router.navigateByUrl('booking');
+      });
   }
 }

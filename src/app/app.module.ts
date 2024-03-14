@@ -33,7 +33,6 @@ import { BookingConfirmationComponent } from './pages/bookings/booking-confirmat
 import { BookingRequestComponent } from './pages/bookings/booking-request/booking-request.component';
 import { LocationCardComponent } from './components/location-card/location-card.component';
 import { CarCardComponent } from './car-card/car-card.component';
-import { BaseCardComponent } from './base-card/base-card.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +57,6 @@ import { BaseCardComponent } from './base-card/base-card.component';
     BookingConfirmationComponent,
     LocationCardComponent,
     CarCardComponent,
-    BaseCardComponent,
   ],
   imports: [
     BrowserModule,

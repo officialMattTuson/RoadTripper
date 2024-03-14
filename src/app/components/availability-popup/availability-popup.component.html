@@ -1,42 +1,46 @@
 <div class="popup-container">
-  <div class="car-carousel">
+  <div class="carousel" *ngIf="availableCars.length > 0; else locationBlock">
     <ng-container *ngFor="let car of availableCars; let i = index">
       <app-car-card
         [car]="car"
-        [showHideCarouselCarClass]="{ 'active': currentIndex === i, 'hidden': currentIndex !== i }"
+        [showHideCarouselCarClass]="{
+          active: currentIndex === i,
+          hidden: currentIndex !== i
+        }"
       ></app-car-card>
     </ng-container>
   </div>
+  <ng-template #locationBlock>
+    <div class="carousel">
+      <ng-container *ngFor="let location of availableLocations; let i = index">
+        <app-location-card
+          [location]="location"
+          [showHideCarouselLocationClass]="{
+            active: currentIndex === i,
+            hidden: currentIndex !== i
+          }"
+        ></app-location-card>
+      </ng-container>
+    </div>
+  </ng-template>
   <div class="carousel__button-container">
     <button
       class="carousel__button"
       mat-icon-button
-      (click)="prevCar()"
-      matTooltip="Previous car"
+      (click)="previousOption()"
+      matTooltip="Previous option"
       matTooltipPosition="above"
-      [disabled]="availableCars.length < 2"
-      [matTooltipDisabled]="availableCars.length < 2"
     >
-      <mat-icon
-        [ngClass]="{ 'disabled-icon': availableCars.length < 2 }"
-        color="primary"
-        >chevron_left</mat-icon
-      >
+      <mat-icon color="primary">chevron_left</mat-icon>
     </button>
     <button
       class="carousel__button"
       mat-icon-button
-      (click)="nextCar()"
-      matTooltip="Next car"
+      (click)="nextOption()"
+      matTooltip="Next option"
       matTooltipPosition="above"
-      [disabled]="availableCars.length < 2"
-      [matTooltipDisabled]="availableCars.length < 2"
     >
-      <mat-icon
-        [ngClass]="{ 'disabled-icon': availableCars.length < 2 }"
-        color="primary"
-        >chevron_right</mat-icon
-      >
+      <mat-icon color="primary">chevron_right</mat-icon>
     </button>
   </div>
   <div class="card-action-buttons">

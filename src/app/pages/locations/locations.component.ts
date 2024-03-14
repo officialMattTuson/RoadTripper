@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { combineLatest, map, take } from 'rxjs';
-import { AppService } from 'src/app/app.service';
+import { take } from 'rxjs';
 import { AvailabilityPopupComponent } from 'src/app/components/availability-popup/availability-popup.component';
 import {
   BookingRequestCarAndLocation,
+  Category,
   Location,
   SelectButtonOption,
 } from 'src/app/interfaces/interfaces';
 import { BookingsService } from 'src/app/services/bookings.service';
+import { LocationsService } from 'src/app/services/locations.service';
 import { UrlService } from 'src/app/services/url.service';
 
 @Component({
@@ -20,7 +21,7 @@ import { UrlService } from 'src/app/services/url.service';
 export class LocationsComponent implements OnInit {
   countriesList = new Set();
   countriesSettled: SelectButtonOption[] = [];
-  categories!: string[];
+  categories!: Category[];
   locationsSelected: Location[] = [];
   locationsList: Location[] = [];
   currentSearchFilters: string[] = [];
@@ -28,21 +29,18 @@ export class LocationsComponent implements OnInit {
   previousUrlString = '';
   currentUrl = window.location.href;
 
-  locations$ = this.appService.getLocations();
-  categories$ = this.appService.getCategories();
-
   constructor(
     private readonly urlService: UrlService,
-    private readonly appService: AppService,
     private readonly bookingsService: BookingsService,
+    private readonly locationsService: LocationsService,
     private readonly dialog: MatDialog,
     private readonly router: Router
   ) {}
 
   ngOnInit(): void {
     this.getPreviousUrl();
-    this.getLocations();
     this.getCategoryNames();
+    this.getLocations();
   }
 
   getPreviousUrl(): void {
@@ -52,23 +50,11 @@ export class LocationsComponent implements OnInit {
   }
 
   getLocations(): void {
-    combineLatest([this.locations$, this.categories$])
-      .pipe(
-        take(1),
-        map(([locations, categories]) =>
-          locations.map((location) => ({
-            ...location,
-            category: categories.find(
-              (category) => category.id === location.categoryId
-            )?.name,
-          }))
-        )
-      )
-      .subscribe((locations: Location[]) => {
-        this.locationsList = locations;
-        this.getCountries(locations);
-        this.setInitialFilteredLocations(locations);
-      });
+    this.locationsService.locations$.subscribe((locations) => {
+      this.locationsList = locations;
+      this.getCountries(locations);
+      this.setInitialFilteredLocations(locations);
+    });
   }
 
   getCountries(locations: Location[]) {
@@ -124,17 +110,9 @@ export class LocationsComponent implements OnInit {
   }
 
   getCategoryNames(): void {
-    this.categories$
-      .pipe(
-        take(1),
-        map((categories) => {
-          const categoryNames = categories.map((category) => category.name);
-          return categoryNames;
-        })
-      )
-      .subscribe((categories) => {
-        this.categories = categories;
-      });
+    this.locationsService.categories$.subscribe((categories) => {
+      this.categories = categories;
+    });
   }
 
   onFilterChange(selectedFilters: string[]): void {
