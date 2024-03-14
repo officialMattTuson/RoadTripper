@@ -24,7 +24,7 @@ export class CarHireComponent implements OnInit {
   previousUrlString = '';
   currentUrl = window.location.href;
   carDetails: Car[] = [];
-  searchBarTitle = 'Filter By Fuel Type';
+  searchBarTitle = '';
   carFuelTypes: string[] = [];
   filteredCarList?: SelectButtonOption[];
   currentSearchFilters: string[] = [];
@@ -72,17 +72,6 @@ export class CarHireComponent implements OnInit {
 
   onFilterChange(selectedFilters: string[]): void {
     this.currentSearchFilters = selectedFilters;
-    const fuelTypeCount = selectedFilters.length;
-
-    if (fuelTypeCount === 0) {
-      this.searchBarTitle = 'Select a fuel class';
-    } else {
-      this.searchBarTitle =
-        fuelTypeCount > 1
-          ? `${fuelTypeCount} fuel types selected`
-          : selectedFilters[0];
-    }
-
     this.sortCarsByFuelType(selectedFilters);
   }
 

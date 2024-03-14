@@ -9,7 +9,7 @@
         <mat-card-subtitle>{{ car.year }} {{ car.model }}</mat-card-subtitle>
       </mat-card-header>
       <section class="car-details">
-        <ng-container *ngIf="!hasExecuted && isAvailableCarFullModel(car)">
+        <ng-container *ngIf="isAvailableCarFullModel(car)">
           <mat-card-subtitle class="icon-subtitle-pair">
             <mat-icon color="primary">directions_car</mat-icon>
             {{ car.numberOfCars }} {{ car.numberOfCars === 1 ? 'car' : 'cars' }} remaining

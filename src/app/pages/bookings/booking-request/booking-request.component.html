@@ -1,4 +1,17 @@
-<div *ngIf="bookingRequest">
-    <h1>{{bookingRequest?.selectedLocation?.name}}</h1>
-    <h1>{{bookingRequest?.selectedCar?.make}}</h1>
+<header class="header-container">
+  <button id="back-button" mat-raised-button routerLink="">
+    <mat-icon>chevron_left</mat-icon>
+    <span id="back-button-text">Return Home</span>
+  </button>
+  <h1 class="page-title">Booking request</h1>
+  <button id="fleet-button" disabled mat-raised-button routerLink="/car-hire">
+    View Fleet
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+</header>
+<div>
+  <app-location-card
+    [location]="bookingRequest.selectedLocation"
+  ></app-location-card>
+  <app-car-card [car]="bookingRequest.selectedCar"></app-car-card>
 </div>

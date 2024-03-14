@@ -11,7 +11,7 @@
 
     <div class="fuel-type-filter" *ngIf="filteredCarList">
       <app-filter-block
-        [searchBarTitle]="searchBarTitle"
+        searchBarTitle="Filter by fuel types"
         [options]="filteredCarList"
         placeholder="Search Car By Make or Model"
         (searchEvent)="onSearchedTerm($event)"

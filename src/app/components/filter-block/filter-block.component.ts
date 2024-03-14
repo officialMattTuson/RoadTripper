@@ -48,7 +48,6 @@ export class FilterBlockComponent {
     } else {
       this.selectedOptions = this.selectedOptions.filter((x) => x.value !== option.value);
     }
-
     this.emitSelectedValues(this.selectedOptions);
   }
 

@@ -1,0 +1,28 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 900;
+  margin-block-start: 2rem;
+}
+
+#back-button,
+#fleet-button {
+  margin: 2rem;
+  width: 10rem;
+  background-color: black;
+  color: white;
+}
+
+#back-button:hover {
+  background-color: orange;
+}
+
+#fleet-button {
+  opacity: 0.4;
+}

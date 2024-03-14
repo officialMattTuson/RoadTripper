@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { initialBookingState } from 'src/app/data/booking.model';
 import { BookingRequestCarAndLocation } from 'src/app/interfaces/interfaces';
 import { BookingsService } from 'src/app/services/bookings.service';
 
@@ -12,7 +13,10 @@ export class BookingRequestComponent implements OnInit {
   bookingRequest$ = this.bookingsService.bookingRequest$;
   bookingRequest!: BookingRequestCarAndLocation;
 
-  constructor(private readonly bookingsService: BookingsService) {}
+  constructor(
+    private readonly bookingsService: BookingsService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getBookingRequest();
@@ -20,7 +24,10 @@ export class BookingRequestComponent implements OnInit {
 
   getBookingRequest() {
     this.bookingRequest$.subscribe((bookingRequest) => {
-      this.bookingRequest = bookingRequest as BookingRequestCarAndLocation;
+      this.bookingRequest = bookingRequest;
+      if (bookingRequest === initialBookingState) {
+        this.router.navigateByUrl('/home');
+      }
     });
   }
 }

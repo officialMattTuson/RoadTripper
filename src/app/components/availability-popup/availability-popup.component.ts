@@ -54,7 +54,6 @@ export class AvailabilityPopupComponent implements OnInit {
             }
           });
         });
-        console.log(this.availableLocations);
       });
   }
 
@@ -101,10 +100,22 @@ export class AvailabilityPopupComponent implements OnInit {
   }
 
   onsubmitBookingRequest(): void {
-    const bookingRequest: BookingRequestCarAndLocation = {
-      selectedCar: this.availableCars[this.currentIndex],
-      selectedLocation: this.selectedLocation,
-    };
+    let bookingRequest: BookingRequestCarAndLocation;
+    if (this.isDataCarModel(this.data)) {
+      const selectedCar: AvailableCarFullModel = {
+        numberOfCars: 0,
+        ...this.selectedCar,
+      };
+      bookingRequest = {
+        selectedCar: selectedCar,
+        selectedLocation: this.availableLocations[this.currentIndex],
+      };
+    } else {
+      bookingRequest = {
+        selectedCar: this.availableCars[this.currentIndex],
+        selectedLocation: this.selectedLocation,
+      };
+    }
     this.closePopup(bookingRequest);
   }
 
