@@ -26,7 +26,7 @@ export class BookingRequestComponent implements OnInit {
     this.bookingRequest$.subscribe((bookingRequest) => {
       this.bookingRequest = bookingRequest;
       if (bookingRequest === initialBookingState) {
-        this.router.navigateByUrl('/home');
+        // this.router.navigateByUrl('/home');
       }
     });
   }

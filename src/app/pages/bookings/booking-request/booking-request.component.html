@@ -9,9 +9,12 @@
     <mat-icon>chevron_right</mat-icon>
   </button>
 </header>
-<div>
-  <app-location-card
-    [location]="bookingRequest.selectedLocation"
-  ></app-location-card>
-  <app-car-card [car]="bookingRequest.selectedCar"></app-car-card>
+<div class="booking-details">
+  <app-booking-form></app-booking-form>
+  <div>
+    <app-location-card
+      [location]="bookingRequest.selectedLocation"
+    ></app-location-card>
+    <app-car-card [car]="bookingRequest.selectedCar"></app-car-card>
+  </div>
 </div>

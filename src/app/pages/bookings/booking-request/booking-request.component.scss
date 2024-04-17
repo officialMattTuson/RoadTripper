@@ -26,3 +26,8 @@
 #fleet-button {
   opacity: 0.4;
 }
+
+.booking-details {
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+}

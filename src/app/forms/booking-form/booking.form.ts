@@ -43,9 +43,6 @@ const getBookingForm = () => {
       Validators.required,
       Validators.maxLength(maxLengthNameField),
     ]),
-    contactRegion: fb.control('', [
-      Validators.maxLength(maxLengthNameField),
-    ]),
     contactDriversLicenseNumber: fb.control('', [
       Validators.required,
       Validators.pattern(alphaNumericRegex),

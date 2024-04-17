@@ -19,10 +19,12 @@ import { FilterBlockComponent } from './components/filter-block/filter-block.com
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -76,6 +78,8 @@ import { BookingFormComponent } from './forms/booking-form/booking-form.componen
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -88,6 +92,8 @@ import { BookingFormComponent } from './forms/booking-form/booking-form.componen
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatSelectModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent],
