@@ -25,10 +25,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AvailabilityPopupComponent } from './components/availability-popup/availability-popup.component';
 import { BookingConfirmationComponent } from './pages/bookings/booking-confirmation/booking-confirmation.component';
@@ -36,6 +39,8 @@ import { BookingRequestComponent } from './pages/bookings/booking-request/bookin
 import { LocationCardComponent } from './components/location-card/location-card.component';
 import { CarCardComponent } from './car-card/car-card.component';
 import { BookingFormComponent } from './forms/booking-form/booking-form.component';
+import { ContactFormComponent } from './forms/contact-form/contact-form.component';
+import { SharedFormComponent } from './forms/shared-form/shared-form.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +66,8 @@ import { BookingFormComponent } from './forms/booking-form/booking-form.componen
     LocationCardComponent,
     CarCardComponent,
     BookingFormComponent,
+    ContactFormComponent,
+    SharedFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +86,10 @@ import { BookingFormComponent } from './forms/booking-form/booking-form.componen
     MatInputModule,
     MatDialogModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
   ],
   exports: [
     MatButtonModule,
@@ -93,7 +103,10 @@ import { BookingFormComponent } from './forms/booking-form/booking-form.componen
     MatInputModule,
     MatDialogModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    MatNativeDateModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

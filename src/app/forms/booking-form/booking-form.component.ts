@@ -1,58 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { BookingForm } from './booking.form';
-import { AppService } from 'src/app/app.service';
-import { map, startWith, take } from 'rxjs';
+import { SharedFormComponent } from '../shared-form/shared-form.component';
+import { FormArray, FormControl } from '@angular/forms';
+import { takeUntil } from 'rxjs';
+import { ContactForm } from '../contact-form/contact.form';
 
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.scss'],
 })
-export class BookingFormComponent implements OnInit {
-  form: FormGroup;
-  countries: string[] = [];
-  filteredOptions: string[];
-  constructor(private readonly appService: AppService) {}
-
+export class BookingFormComponent extends SharedFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = new BookingForm();
-    this.getCountries();
-    this.setAutoCompleteOptions();
+    this.observeNumberOfDrivers();
   }
 
-  getCountries() {
-    this.appService
-      .getCountries()
-      .pipe(take(1))
-      .subscribe({
-        next: (countries) => {
-          const countryNames = countries.map((country) => {
-            return country.name.common;
-          });
-          this.countries = this.sortAlphabetically(countryNames);
-        },
-      });
-  }
-
-  setAutoCompleteOptions() {
-    this.countryControl.valueChanges.pipe(startWith('')).subscribe((value) => {
-      this.filteredOptions = this._filter(value);
+  observeNumberOfDrivers(): void {
+    this.numberOfDriversControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.driversDetailsArray.push(new ContactForm());
     });
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.countries.filter((country) =>
-      country.toLowerCase().includes(filterValue)
-    );
+  get numberOfDriversControl(): FormControl {
+    return this.form.get('numberOfDrivers') as FormControl;
   }
 
-  sortAlphabetically(list: string[]): string[] {
-    return list.sort((a, b) => a.localeCompare(b));
-  }
-
-  get countryControl(): FormControl {
-    return this.form.get('contactCountry') as FormControl;
+  get driversDetailsArray(): FormArray {
+    return this.form.get('driversContactDetails') as FormArray;
   }
 }

@@ -1,83 +1,85 @@
 <h2 class="form__header">Booking Details</h2>
 
 <form [formGroup]="form">
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Contact Name</mat-label>
-    <input matInput formControlName="contactName" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Phone Number</mat-label>
-    <input matInput formControlName="contactNumber" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Email Address</mat-label>
-    <input matInput formControlName="contactEmail" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Physical Address</mat-label>
-    <input matInput formControlName="contactAddress" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>City</mat-label>
-    <input matInput formControlName="contactCity" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Country</mat-label>
-    <input
-      type="text"
-      matInput
-      formControlName="contactCountry"
-      [matAutocomplete]="auto"
-    />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <div class="form__2-column">
+    <mat-form-field appearance="fill">
+      <mat-label>Booking start date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerStartDate"
+        formControlName="bookingStartDate"
+        (dateChange)="convertMomentToString('bookingStartDate')"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="pickerStartDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker color="primary" #pickerStartDate></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Drivers License Number</mat-label>
-    <input matInput formControlName="contactDriversLicenseNumber" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Contact Driver Age</mat-label>
-    <input matInput formControlName="contactDriversAge" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Booking start date</mat-label>
-    <input matInput formControlName="bookingStartDate" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Booking end date</mat-label>
-    <input matInput formControlName="bookingEndDate" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Pickup Location</mat-label>
-    <input matInput formControlName="bookingPickUpLocation" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Drop-off Location same as Pickup Location</mat-label>
-    <input matInput formControlName="isDropOffAndPickUpLocationSame" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Drop-off Location</mat-label>
-    <input matInput formControlName="bookingDropOffLocation" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Number of Adults(18-65)</mat-label>
-    <input matInput formControlName="numberOfAdults" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Number of Children (2-18)</mat-label>
-    <input matInput formControlName="numberOfSeniors" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Number of Seniors (65+)</mat-label>
-    <input matInput formControlName="numberOfTotalTravelers" />
-  </mat-form-field>
-  <mat-form-field class="form-field__2-column" appearance="outline">
-    <mat-label>Selected Car Type</mat-label>
-    <input matInput formControlName="selectedCarType" />
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Booking end date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerEndDate"
+        formControlName="bookingEndDate"
+        (dateChange)="convertMomentToString('bookingEndDate')"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="pickerEndDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker color="primary" #pickerEndDate></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="form__2-column">
+    <mat-form-field appearance="outline">
+      <mat-label>Pickup Location</mat-label>
+      <input matInput formControlName="bookingPickUpLocation" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Drop-off Location same as Pickup Location</mat-label>
+      <input matInput formControlName="isDropOffAndPickUpLocationSame" />
+    </mat-form-field>
+  </div>
+
+  <div class="form__2-column">
+    <mat-form-field appearance="outline">
+      <mat-label>Drop-off Location</mat-label>
+      <input matInput formControlName="bookingDropOffLocation" />
+    </mat-form-field>
+  </div>
+
+  <div class="form__2-column">
+    <mat-form-field appearance="outline">
+      <mat-label>Number of Adults(18-65)</mat-label>
+      <input matInput formControlName="numberOfAdults" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Number of Children (2-18)</mat-label>
+      <input matInput formControlName="numberOfSeniors" />
+    </mat-form-field>
+  </div>
+  <div class="form__2-column">
+    <mat-form-field appearance="outline">
+      <mat-label>Number of Seniors (65+)</mat-label>
+      <input matInput formControlName="numberOfTotalTravelers" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Selected Car Type</mat-label>
+      <input matInput formControlName="selectedCarType" />
+    </mat-form-field>
+  </div>
+    <mat-radio-group color="primary" formControlName="numberOfDrivers" class="form__radio-group">
+      <mat-label>Number of Drivers:</mat-label>
+      <mat-radio-button [value]="1">1 </mat-radio-button>
+      <mat-radio-button [value]="2">2 </mat-radio-button>
+      <mat-radio-button [value]="3">3 </mat-radio-button>
+      <mat-radio-button [value]="4">4 </mat-radio-button>
+    </mat-radio-group>
+
+  <h2 class="form__header">Contact Details</h2>
+
+  <app-contact-form></app-contact-form>
 </form>
