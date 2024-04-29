@@ -49,15 +49,18 @@ export class SharedFormComponent {
       case formControl.hasError('matDatepickerParse'):
         return `Please enter a valid ${formDisplayName.toLowerCase()}.`;
 
+      case formControl.hasError('futureDate'):
+        return `${formDisplayName} must be in the future.`;
+
+      case formControl.hasError('endDateBeforeStartDate'):
+        return `End date must be after the start date`; 
+        
       case formControl.hasError('required'):
         if (formControl.touched) {
           return `${formDisplayName} is required.`;
         } else {
           return null;
         }
-
-      case formControl.hasError('unitsSoldError'):
-        return 'Number of units sold cannot be greater than total number of units.';
 
       default:
         return null;

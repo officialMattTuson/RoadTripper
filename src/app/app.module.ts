@@ -32,6 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AvailabilityPopupComponent } from './components/availability-popup/availability-popup.component';
 import { BookingConfirmationComponent } from './pages/bookings/booking-confirmation/booking-confirmation.component';
@@ -90,6 +91,7 @@ import { SharedFormComponent } from './forms/shared-form/shared-form.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatDividerModule
   ],
   exports: [
     MatButtonModule,
@@ -107,6 +109,7 @@ import { SharedFormComponent } from './forms/shared-form/shared-form.component';
     MatAutocompleteModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

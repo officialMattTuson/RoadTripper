@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContactForm } from './contact.form';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SharedFormComponent } from '../shared-form/shared-form.component';
@@ -13,6 +13,8 @@ import { startWith, take } from 'rxjs';
 export class ContactFormComponent extends SharedFormComponent implements OnInit {
   countries: string[] = [];
   filteredOptions: string[];
+
+  @Input() index: number;
   constructor(private readonly appService: AppService) {
     super();
   }
@@ -20,6 +22,7 @@ export class ContactFormComponent extends SharedFormComponent implements OnInit 
   ngOnInit(): void {
     this.form = new ContactForm();
     this.getCountries();
+    this.setAutoCompleteOptions();
   }
 
   getCountries() {

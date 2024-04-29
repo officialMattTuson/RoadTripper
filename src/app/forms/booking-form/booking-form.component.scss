@@ -1,7 +1,7 @@
 .form__header {
   display: flex;
   justify-content: center;
-  margin-block: 1rem;
+  margin-block: 1.5rem;
 }
 
 form {
@@ -13,6 +13,7 @@ form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 1rem;
+  align-items: center;
 }
 
 .form__radio-group {
@@ -25,10 +26,18 @@ form {
     margin: 1rem;
   }
 }
+
+.form__checkbox {
+  padding-block-end: 1.34375em;
+}
+
 :host ::ng-deep {
   .mat-radio-container,
   .mat-radio-outer-circle,
-  .mat-radio-inner-circle {
+  .mat-radio-inner-circle,
+  .mat-checkbox-frame,
+  .mat-checkbox-background,
+  .mat-checkbox-inner-container {
     width: 1.5rem;
     height: 1.5rem;
   }

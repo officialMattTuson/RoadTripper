@@ -4,50 +4,54 @@
   <div class="form__2-column">
     <mat-form-field appearance="fill">
       <mat-label>Booking start date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="pickerStartDate"
-        formControlName="bookingStartDate"
-        (dateChange)="convertMomentToString('bookingStartDate')"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="pickerStartDate"
-      ></mat-datepicker-toggle>
+      <input matInput [min]="minDate" [matDatepicker]="pickerStartDate" formControlName="bookingStartDate" (dateChange)="convertMomentToString('bookingStartDate')" />
+      <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
       <mat-datepicker color="primary" #pickerStartDate></mat-datepicker>
+      <mat-error>{{ getErrorMessage('bookingStartDate', 'Booking start date') }}</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Booking end date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="pickerEndDate"
-        formControlName="bookingEndDate"
-        (dateChange)="convertMomentToString('bookingEndDate')"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="pickerEndDate"
-      ></mat-datepicker-toggle>
+      <input matInput [min]="minDate" [matDatepicker]="pickerEndDate" formControlName="bookingEndDate" (dateChange)="convertMomentToString('bookingEndDate')" />
+      <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
       <mat-datepicker color="primary" #pickerEndDate></mat-datepicker>
+      <mat-error>{{ getErrorMessage('bookingEndDate', 'Booking end date') }}</mat-error>
     </mat-form-field>
   </div>
 
   <div class="form__2-column">
     <mat-form-field appearance="outline">
       <mat-label>Pickup Location</mat-label>
-      <input matInput formControlName="bookingPickUpLocation" />
+      <mat-select formControlName="bookingPickUpLocation">
+        <mat-option
+          *ngFor="let location of locations$ | async"
+          [value]="location.name"
+          >{{ location.name }}</mat-option
+        >
+      </mat-select>
+      <mat-error>{{ getErrorMessage('bookingPickUpLocation', 'Pick up location') }}</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Drop-off Location same as Pickup Location</mat-label>
-      <input matInput formControlName="isDropOffAndPickUpLocationSame" />
-    </mat-form-field>
+
+    <mat-checkbox
+      class="form__checkbox"
+      color="primary"
+      formControlName="isDropOffAndPickUpLocationSame"
+    >
+      Drop-off Location same as Pickup Location
+    </mat-checkbox>
   </div>
 
   <div class="form__2-column">
     <mat-form-field appearance="outline">
-      <mat-label>Drop-off Location</mat-label>
-      <input matInput formControlName="bookingDropOffLocation" />
+      <mat-label>Drop off Location</mat-label>
+      <mat-select formControlName="bookingDropOffLocation">
+        <mat-option
+          *ngFor="let location of locations$ | async"
+          [value]="location.name"
+          >{{ location.name }}</mat-option
+        >
+      </mat-select>
+      <mat-error>{{ getErrorMessage('bookingDropOffLocation', 'Drop off location') }}</mat-error>
     </mat-form-field>
   </div>
 
@@ -71,15 +75,21 @@
       <input matInput formControlName="selectedCarType" />
     </mat-form-field>
   </div>
-    <mat-radio-group color="primary" formControlName="numberOfDrivers" class="form__radio-group">
-      <mat-label>Number of Drivers:</mat-label>
-      <mat-radio-button [value]="1">1 </mat-radio-button>
-      <mat-radio-button [value]="2">2 </mat-radio-button>
-      <mat-radio-button [value]="3">3 </mat-radio-button>
-      <mat-radio-button [value]="4">4 </mat-radio-button>
-    </mat-radio-group>
+  <mat-radio-group color="primary" formControlName="numberOfDrivers" class="form__radio-group">
+    <mat-label>Number of Drivers:</mat-label>
+    <mat-radio-button [value]="1">1 </mat-radio-button>
+    <mat-radio-button [value]="2">2 </mat-radio-button>
+    <mat-radio-button [value]="3">3 </mat-radio-button>
+    <mat-radio-button [value]="4">4 </mat-radio-button>
+  </mat-radio-group>
+
+  <mat-divider></mat-divider>
 
   <h2 class="form__header">Contact Details</h2>
 
-  <app-contact-form></app-contact-form>
+  <ng-container formArrayName="driversContactDetails">
+    <ng-container *ngFor="let contactDetails of driversDetailsArray.controls; let i = index">
+      <app-contact-form [index]="i"></app-contact-form>
+    </ng-container>
+  </ng-container>
 </form>
