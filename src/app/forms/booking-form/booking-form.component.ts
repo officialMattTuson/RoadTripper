@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BookingForm } from './booking.form';
 import { SharedFormComponent } from '../shared-form/shared-form.component';
 import { FormArray, FormControl } from '@angular/forms';
-import { startWith, takeUntil } from 'rxjs';
+import { combineLatest, map, startWith, take, takeUntil } from 'rxjs';
 import { ContactForm } from '../contact-form/contact.form';
 import { LocationsService } from 'src/app/services/locations.service';
+import { AvailableCarFullModel, Location } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-booking-form',
@@ -12,8 +13,11 @@ import { LocationsService } from 'src/app/services/locations.service';
   styleUrls: ['./booking-form.component.scss'],
 })
 export class BookingFormComponent extends SharedFormComponent implements OnInit {
+  @Input() location: Location;
+  @Input() car: AvailableCarFullModel;
+
   minDate = new Date();
-  locations$ = this.locationService.locations$;
+  filteredLocations: Location[];
 
   constructor(private readonly locationService: LocationsService) {
     super();
@@ -21,10 +25,26 @@ export class BookingFormComponent extends SharedFormComponent implements OnInit 
 
   ngOnInit(): void {
     this.form = new BookingForm();
+    this.pickUpLocationControl.setValue(this.location.name);
+    this.pickUpLocationControl.disable();
     this.observeNumberOfDrivers();
     this.observeStartBookingDate();
     this.observeCheckboxValueChange();
-    this.observePickUpLocation();
+    this.observeTravelNumbers();
+    this.locationService.locations$
+      .pipe(
+        take(1),
+        map((locations: Location[]) => {
+          return locations.filter((location) => {
+            return location.country === this.location.country;
+          });
+        })
+      )
+      .subscribe((locations) => {
+        this.filteredLocations = locations;
+      });
+    this.selectedCarControl.patchValue(this.car.transmission);
+    this.selectedCarControl.disable();
   }
 
   observeNumberOfDrivers(): void {
@@ -61,16 +81,34 @@ export class BookingFormComponent extends SharedFormComponent implements OnInit 
 
   observeCheckboxValueChange(): void {
     this.dropOffPickUpSameLocationControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: boolean) => {
-      this.dropOffLocationControl.patchValue(value ? this.pickUpLocationControl.value : '');
+      if (value) {
+        this.dropOffLocationControl.patchValue(this.pickUpLocationControl.value);
+        this.dropOffLocationControl.disable();
+      } else {
+        this.dropOffLocationControl.enable();
+      }
     });
   }
 
-  observePickUpLocation(): void {
-    this.pickUpLocationControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value: string) => {
-      if (value && this.dropOffPickUpSameLocationControl.value) {
-        this.dropOffLocationControl.patchValue(value);
-      }
-    });
+  observeTravelNumbers(): void {
+    combineLatest([
+      this.numberOfAdultsControl.valueChanges.pipe(startWith(1)),
+      this.numberOfSeniorsControl.valueChanges.pipe(startWith(0)),
+      this.numberOfChildrenControl.valueChanges.pipe(startWith(0)),
+    ])
+      .pipe(
+        takeUntil(this.destroy$),
+        map((value: number[]) => {
+          return this.returnSumOfArray(value);
+        })
+      )
+      .subscribe((value: number) => {
+        this.numberOfTravelersControl.patchValue(value);
+      });
+  }
+
+  returnSumOfArray(values: number[]): number {
+    return values.reduce((acc, cv) => acc + cv, 0);
   }
 
   get numberOfDriversControl(): FormControl {
@@ -93,8 +131,28 @@ export class BookingFormComponent extends SharedFormComponent implements OnInit 
     return this.form.get('bookingEndDate') as FormControl;
   }
 
+  get selectedCarControl(): FormControl {
+    return this.form.get('selectedCarType') as FormControl;
+  }
+
   get dropOffPickUpSameLocationControl(): FormControl {
     return this.form.get('isDropOffAndPickUpLocationSame') as FormControl;
+  }
+
+  get numberOfAdultsControl(): FormControl {
+    return this.form.get('numberOfAdults') as FormControl;
+  }
+
+  get numberOfSeniorsControl(): FormControl {
+    return this.form.get('numberOfSeniors') as FormControl;
+  }
+
+  get numberOfChildrenControl(): FormControl {
+    return this.form.get('numberOfChildren') as FormControl;
+  }
+
+  get numberOfTravelersControl(): FormControl {
+    return this.form.get('numberOfTotalTravelers') as FormControl;
   }
 
   get driversDetailsArray(): FormArray {

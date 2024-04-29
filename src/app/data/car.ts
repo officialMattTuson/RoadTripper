@@ -107,7 +107,7 @@ const transmissionType: Transmission[] = [
   },
 ]
 
-const carSetData = [
+export const carSetData = [
   {
     id: 10001,
     make: 'Tesla',

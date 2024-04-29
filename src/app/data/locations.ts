@@ -26,7 +26,7 @@ const categoryData = [
   },
 ];
 
-const locationSetData: Location[] = [
+export const locationSetData: Location[] = [
   {
     id: 1,
     name: 'Auckland',

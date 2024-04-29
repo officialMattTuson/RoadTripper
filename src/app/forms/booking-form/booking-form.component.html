@@ -23,11 +23,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Pickup Location</mat-label>
       <mat-select formControlName="bookingPickUpLocation">
-        <mat-option
-          *ngFor="let location of locations$ | async"
-          [value]="location.name"
-          >{{ location.name }}</mat-option
-        >
+        <mat-option [value]="location.name">{{ location.name }}</mat-option>
       </mat-select>
       <mat-error>{{ getErrorMessage('bookingPickUpLocation', 'Pick up location') }}</mat-error>
     </mat-form-field>
@@ -46,35 +42,51 @@
       <mat-label>Drop off Location</mat-label>
       <mat-select formControlName="bookingDropOffLocation">
         <mat-option
-          *ngFor="let location of locations$ | async"
+          *ngFor="let location of filteredLocations"
           [value]="location.name"
           >{{ location.name }}</mat-option
         >
       </mat-select>
       <mat-error>{{ getErrorMessage('bookingDropOffLocation', 'Drop off location') }}</mat-error>
     </mat-form-field>
-  </div>
-
-  <div class="form__2-column">
-    <mat-form-field appearance="outline">
-      <mat-label>Number of Adults(18-65)</mat-label>
-      <input matInput formControlName="numberOfAdults" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Number of Children (2-18)</mat-label>
-      <input matInput formControlName="numberOfSeniors" />
-    </mat-form-field>
-  </div>
-  <div class="form__2-column">
-    <mat-form-field appearance="outline">
-      <mat-label>Number of Seniors (65+)</mat-label>
-      <input matInput formControlName="numberOfTotalTravelers" />
-    </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Selected Car Type</mat-label>
       <input matInput formControlName="selectedCarType" />
     </mat-form-field>
   </div>
+
+  <mat-radio-group color="primary" formControlName="numberOfAdults" class="form__radio-group">
+    <mat-label>No. of Adults (18-65):</mat-label>
+    <mat-radio-button [value]="1">1 </mat-radio-button>
+    <mat-radio-button [value]="2">2 </mat-radio-button>
+    <mat-radio-button [value]="3">3 </mat-radio-button>
+    <mat-radio-button [value]="4">4 </mat-radio-button>
+    <mat-radio-button [value]="5">5 </mat-radio-button>
+  </mat-radio-group>
+  <mat-radio-group color="primary" formControlName="numberOfSeniors" class="form__radio-group">
+    <mat-label>No. of Seniors (65+):</mat-label>
+    <mat-radio-button [value]="0">0 </mat-radio-button>
+    <mat-radio-button [value]="1">1 </mat-radio-button>
+    <mat-radio-button [value]="2">2 </mat-radio-button>
+    <mat-radio-button [value]="3">3 </mat-radio-button>
+    <mat-radio-button [value]="4">4 </mat-radio-button>
+  </mat-radio-group>
+  <mat-radio-group color="primary" formControlName="numberOfChildren" class="form__radio-group">
+    <mat-label>No. of Children (0-18):</mat-label>
+    <mat-radio-button [value]="0">0 </mat-radio-button>
+    <mat-radio-button [value]="1">1 </mat-radio-button>
+    <mat-radio-button [value]="2">2 </mat-radio-button>
+    <mat-radio-button [value]="3">3 </mat-radio-button>
+    <mat-radio-button [value]="4">4 </mat-radio-button>
+  </mat-radio-group>
+
+  <div class="form__2-column">
+    <mat-form-field appearance="outline">
+      <mat-label>Total No. of Travelers</mat-label>
+      <input matInput formControlName="numberOfTotalTravelers" />
+    </mat-form-field>
+  </div>
+
   <mat-radio-group color="primary" formControlName="numberOfDrivers" class="form__radio-group">
     <mat-label>Number of Drivers:</mat-label>
     <mat-radio-button [value]="1">1 </mat-radio-button>

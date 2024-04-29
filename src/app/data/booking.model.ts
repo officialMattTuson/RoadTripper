@@ -1,4 +1,6 @@
 import { BookingRequestCarAndLocation } from '../interfaces/interfaces';
+import { carSetData } from './car';
+import { locationSetData } from './locations';
 
 export const initialBookingState: BookingRequestCarAndLocation = {
   selectedCar: {
@@ -35,4 +37,12 @@ export const initialBookingState: BookingRequestCarAndLocation = {
       },
     ],
   },
+};
+
+export const mockBookingDetails: BookingRequestCarAndLocation = {
+  selectedCar: {
+    ...carSetData[0],
+    numberOfCars: 2,
+  },
+  selectedLocation: locationSetData[0],
 };
