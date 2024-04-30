@@ -1,1 +1,9 @@
-
+:host ::ng-deep {
+  .mat-form-field {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: 1rem;
+  }
+}

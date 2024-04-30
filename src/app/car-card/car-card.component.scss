@@ -1,5 +1,7 @@
 .car {
   position: relative;
+  border: 3px solid black;
+  border-radius: 0.5rem;
   width: 21rem;
   height: 32rem;
   flex-shrink: 1;
@@ -7,7 +9,6 @@
   background-color: antiquewhite;
 
   &__top-border {
-    border: 3px solid black;
     position: absolute;
     top: 0;
     bottom: 50%;

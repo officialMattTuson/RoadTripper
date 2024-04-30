@@ -5,9 +5,18 @@
 }
 
 form {
-  width: 80%;
+  width: 90%;
   margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  column-gap: 3rem;
+
+  > div {
+    margin-block: 2rem;
+    width: 100%;
+  }
 }
+
 .form__2-column {
   width: 100%;
   display: grid;
@@ -21,10 +30,19 @@ form {
   flex-direction: row;
   margin: 15px 0;
   align-items: center;
+  justify-content: center;
 
   mat-radio-button {
     margin: 1rem;
   }
+}
+
+.booking-details__selected {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-block-start: 2rem;
 }
 
 .form__checkbox {
